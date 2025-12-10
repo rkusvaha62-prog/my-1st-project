@@ -1,0 +1,441 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Automation & Smart Irrigation | Modern Technologies</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- (Optional) old css – new styles below override -->
+    <link rel="stylesheet" href="assets/css/style.css">
+
+    <style>
+        :root {
+            --primary: #16a34a;
+            --panel-bg: rgba(10, 16, 20, 0.97);
+            --text-main: #f9fafb;
+            --text-muted: #9ca3af;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, Helvetica, sans-serif;
+        }
+
+        body {
+            min-height: 100vh;
+            background: radial-gradient(circle at top, #020617, #000000, #020617);
+            color: var(--text-main);
+        }
+
+        /* ===== NAVBAR (same style as Home) ===== */
+        header {
+            background: linear-gradient(90deg, #000000, #022c22, #000000);
+            color: #fff;
+            position: sticky;
+            top: 0;
+            z-index: 50;
+            box-shadow: 0 6px 18px rgba(0, 0, 0, 0.7);
+        }
+
+        .nav-container {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 10px 18px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .logo {
+            font-weight: bold;
+            font-size: 1.1rem;
+            letter-spacing: 0.4px;
+            color: #e5e7eb;
+        }
+
+        nav {
+            display: flex;
+            gap: 8px;
+        }
+
+        nav a {
+            position: relative;
+            color: #bbf7d0;
+            text-decoration: none;
+            font-size: 0.93rem;
+            padding: 6px 14px;
+            border-radius: 999px;
+            overflow: hidden;
+            z-index: 0;
+            transition:
+                color 0.25s ease,
+                transform 0.18s ease,
+                box-shadow 0.18s ease;
+        }
+
+        /* animated black–white–green light border */
+        nav a::before {
+            content: "";
+            position: absolute;
+            inset: -2px;
+            border-radius: inherit;
+            background: linear-gradient(120deg,
+                    #000000,
+                    #16a34a,
+                    #ffffff,
+                    #16a34a,
+                    #000000);
+            background-size: 260% 260%;
+            opacity: 0;
+            transform: rotate(0deg);
+            transition: opacity 0.25s ease;
+            z-index: -2;
+        }
+
+        nav a::after {
+            content: "";
+            position: absolute;
+            inset: 1px;
+            border-radius: inherit;
+            background: rgba(15, 23, 42, 0.95);
+            z-index: -1;
+        }
+
+        @keyframes navGlow {
+            to {
+                background-position: 260% 0;
+            }
+        }
+
+        nav a:hover,
+        nav a:focus-visible {
+            color: #ffffff;
+            transform: translateY(-1px);
+            box-shadow: 0 6px 18px rgba(0, 0, 0, 0.7);
+        }
+
+        nav a:hover::before,
+        nav a:focus-visible::before {
+            opacity: 1;
+            animation: navGlow 4s linear infinite;
+        }
+
+        /* mark this page active when you want */
+        nav a.active {
+            color: #ffffff;
+            box-shadow: 0 8px 22px rgba(0, 0, 0, 0.85);
+        }
+
+        nav a.active::before {
+            opacity: 1;
+            animation: navGlow 4s linear infinite;
+        }
+
+        /* ===== MAIN LAYOUT ===== */
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 26px 18px 40px;
+        }
+
+        .tag {
+            display: inline-block;
+            font-size: 0.78rem;
+            padding: 4px 10px;
+            border-radius: 999px;
+            background: rgba(15, 23, 42, 0.95);
+            border: 1px solid rgba(148, 163, 184, 0.8);
+            color: #e5e7eb;
+            margin-bottom: 10px;
+        }
+
+        .section-title {
+            font-size: 1.9rem;
+            margin-bottom: 6px;
+        }
+
+        .section-subtitle {
+            font-size: 0.95rem;
+            color: var(--text-muted);
+            margin-bottom: 22px;
+            max-width: 800px;
+        }
+
+        /* ===== TECH BOXES (7px animated border + image space) ===== */
+        .tech-grid {
+            display: flex;
+            flex-direction: column;
+            gap: 24px;
+            margin-top: 6px;
+        }
+
+        .tech-box {
+            position: relative;
+            padding: 7px;
+            /* 7px animated border */
+            border-radius: 18px;
+            background: linear-gradient(130deg,
+                    #000000,
+                    #16a34a,
+                    #ffffff,
+                    #16a34a,
+                    #000000);
+            background-size: 260% 260%;
+            animation: borderMove 7s linear infinite;
+            box-shadow: 0 18px 45px rgba(0, 0, 0, 0.95);
+            overflow: hidden;
+        }
+
+        @keyframes borderMove {
+            0% {
+                background-position: 0% 50%;
+            }
+
+            50% {
+                background-position: 100% 50%;
+            }
+
+            100% {
+                background-position: 0% 50%;
+            }
+        }
+
+        .tech-box-inner {
+            border-radius: 12px;
+            background: var(--panel-bg);
+            padding: 16px 18px 18px;
+            color: var(--text-main);
+            display: grid;
+            grid-template-columns: minmax(0, 1.2fr);
+            gap: 10px;
+        }
+
+        /* Top image slot for each box */
+        .tech-image {
+            width: 100%;
+            height: 140px;
+            border-radius: 10px;
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            margin-bottom: 10px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .tech-image::after {
+            content: "";
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(to top,
+                    rgba(0, 0, 0, 0.6),
+                    transparent 40%);
+        }
+
+        /* ====== CHANGE BOX BACKGROUND IMAGES HERE ====== */
+        .tech-box-1 .tech-image {
+            /* replace with your image path */
+            background-image: url("assets/smartirigation.jpeg");
+        }
+
+        .tech-box-2 .tech-image {
+            background-image: url("assets/howtouse.jpg");
+        }
+
+       
+
+        /* If you don't have images yet, you can comment these out or leave them */
+
+        .tech-content h2 {
+            font-size: 1.15rem;
+            margin-bottom: 6px;
+        }
+
+        .tech-content p {
+            font-size: 0.93rem;
+            color: var(--text-main);
+        }
+
+        .tech-content ul {
+            margin-left: 18px;
+            font-size: 0.92rem;
+            color: var(--text-main);
+        }
+
+        .tech-content li {
+            margin-bottom: 4px;
+        }
+
+        .diagram {
+            margin-top: 24px;
+            font-size: 0.92rem;
+            padding: 14px 16px;
+            border-radius: 12px;
+            background: rgba(15, 23, 42, 0.95);
+            border: 1px dashed rgba(148, 163, 184, 0.8);
+        }
+
+        .diagram b {
+            color: #bbf7d0;
+        }
+
+        .back-link {
+            margin-top: 18px;
+            font-size: 0.88rem;
+        }
+
+        .back-link a {
+            color: #16a34a;
+            text-decoration: none;
+        }
+
+        .back-link a:hover {
+            text-decoration: underline;
+        }
+
+        /* ===== FOOTER ===== */
+        footer {
+            margin-top: 40px;
+            background: #000000;
+            color: #e5e7eb;
+            text-align: center;
+            padding: 12px 6px;
+            font-size: 0.85rem;
+            border-top: 1px solid #16a34a;
+        }
+
+        /* ===== RESPONSIVE ===== */
+        @media (max-width: 600px) {
+            .tech-box-inner {
+                padding: 14px 14px 16px;
+            }
+
+            .tech-image {
+                height: 120px;
+            }
+
+            .section-title {
+                font-size: 1.6rem;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <div class="nav-container">
+            <div class="logo">Agriculture Using Modern Technologies</div>
+            <nav>
+                <a href="index.html">Home</a>
+                <a href="technologies.html">All Technologies</a>
+                <a href="contact.html">Contact</a>
+            </nav>
+        </div>
+    </header>
+
+    <main class="container">
+        <span class="tag">Technology Detail Page</span>
+        <h1 class="section-title">Automation &amp; Smart Irrigation Devices</h1>
+        <p class="section-subtitle">
+            Automation devices use data from IoT sensors to control pumps, valves and sprinklers
+            so that water is applied at the right time and in the right quantity.
+        </p>
+
+        <div class="tech-grid">
+            <!-- BOX 1 -->
+            <section class="tech-box tech-box-1">
+                <div class="tech-box-inner">
+                    <div class="tech-image"></div>
+                    <div class="tech-content">
+                        <h2>1. What is Smart Irrigation Automation?</h2>
+                        <p>
+                            Smart irrigation uses controllers and actuators (relays, valves) to switch irrigation
+                            systems
+                            ON or OFF automatically based on soil moisture, time schedule or weather forecast.
+                        </p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- BOX 2 -->
+            <section class="tech-box tech-box-2">
+                <div class="tech-box-inner">
+                    <div class="tech-image"></div>
+                    <div class="tech-content">
+                        <h2>2. How does it work in Agriculture?</h2>
+                        <ul>
+                            <li>IoT sensors send soil moisture data to the controller or cloud.</li>
+                            <li>Predefined rules (e.g., “if moisture &lt; 30% then start pump”) are checked.</li>
+                            <li>Controller activates pump or opens valves to irrigate the field.</li>
+                            <li>When moisture reaches target value, system stops irrigation automatically.</li>
+                            <li>Farmer can also override settings using the mobile app.</li>
+                        </ul>
+                    </div>
+                </div>
+            </section>
+
+            <!-- BOX 3 -->
+            <section class="tech-box tech-box-3">
+                <div class="tech-box-inner">
+                   
+                    <div class="tech-content">
+                        <h2>3. Why are we using Automation? (Advantages)</h2>
+                        <ul>
+                            <li>Prevents under-irrigation and over-irrigation.</li>
+                            <li>Saves water and electricity.</li>
+                            <li>Reduces labour and time spent in manually operating pumps.</li>
+                            <li>Ensures irrigation even when farmer is away from farm.</li>
+                        </ul>
+                    </div>
+                </div>
+            </section>
+
+            <!-- BOX 4 -->
+            <section class="tech-box tech-box-4">
+                <div class="tech-box-inner">
+                  
+                    <div class="tech-content">
+                        <h2>4. Example Use Cases</h2>
+                        <ul>
+                            <li>Night-time irrigation automatically controlled by timer and moisture sensor.</li>
+                            <li>Different irrigation cycles for different crop zones in the same farm.</li>
+                            <li>Remote control of pump using mobile app (ON/OFF, schedule settings).</li>
+                        </ul>
+                    </div>
+                </div>
+            </section>
+
+            <!-- BOX 5 -->
+            <section class="tech-box tech-box-5">
+                <div class="tech-box-inner">
+                   
+                    <div class="tech-content">
+                        <h2>5. Limitations / Challenges</h2>
+                        <ul>
+                            <li>Initial installation cost and wiring / plumbing requirements.</li>
+                            <li>Need for reliable power supply and protection from lightning / surges.</li>
+                            <li>Farmer training required to manage settings and maintenance.</li>
+                        </ul>
+                    </div>
+                </div>
+            </section>
+        </div>
+
+        <div class="diagram">
+            <b>Simple Text Diagram:</b><br>
+            Soil Moisture Sensors → Controller / Cloud Rules → Relay / Valve → Pump / Irrigation System → Crop
+        </div>
+
+        <p class="back-link">
+            <a href="technologies.html">← Back to Technologies List</a>
+        </p>
+    </main>
+
+    <footer>
+        &copy; 2025 Agriculture Using All Modern Technologies • Automation
+    </footer>
+</body>
+
+</html>

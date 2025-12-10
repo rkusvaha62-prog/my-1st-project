@@ -1,0 +1,1366 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Agriculture Using All Modern Technologies</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- ===== INTERNAL CSS ===== -->
+    <style>
+        :root {
+            --primary: #16a34a;
+            --primary-dark: #15803d;
+            --panel-bg: rgba(10, 16, 20, 0.96);
+            --text-main: #f9fafb;
+            --text-muted: #9ca3af;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, Helvetica, sans-serif;
+        }
+
+        /* ==== FULL PAGE BACKGROUND (2nd IMAGE) ==== */
+        body {
+            min-height: 100vh;
+            color: var(--text-main);
+            opacity: 0;
+            animation: fadeIn 0.6s ease-out forwards;
+
+            background:
+                radial-gradient(circle at top, rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.85)),
+                url("grass.webp");
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+        }
+
+        main,
+        footer {
+            position: relative;
+            z-index: 1;
+        }
+
+        /* ===== Basic Layout ===== */
+        header {
+            background: linear-gradient(90deg, #000000, #022c22, #000000);
+            color: #fff;
+            position: sticky;
+            top: 0;
+            z-index: 50;
+            box-shadow: 0 6px 18px rgba(0, 0, 0, 0.7);
+        }
+
+        .nav-container {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 10px 18px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .logo {
+            font-weight: bold;
+            font-size: 1.1rem;
+            letter-spacing: 0.4px;
+            color: #e5e7eb;
+        }
+
+        nav {
+            display: flex;
+            gap: 8px;
+        }
+
+        nav a {
+            position: relative;
+            color: #bbf7d0;
+            text-decoration: none;
+            font-size: 0.93rem;
+            padding: 6px 14px;
+            border-radius: 999px;
+            overflow: hidden;
+            z-index: 0;
+            transition:
+                color 0.25s ease,
+                transform 0.18s ease,
+                box-shadow 0.18s ease;
+        }
+
+        nav a::before {
+            content: "";
+            position: absolute;
+            inset: -2px;
+            border-radius: inherit;
+            background: linear-gradient(120deg,
+                    #000000,
+                    #16a34a,
+                    #ffffff,
+                    #16a34a,
+                    #000000);
+            background-size: 260% 260%;
+            opacity: 0;
+            transform: rotate(0deg);
+            transition: opacity 0.25s ease;
+            z-index: -2;
+        }
+
+        nav a::after {
+            content: "";
+            position: absolute;
+            inset: 1px;
+            border-radius: inherit;
+            background: rgba(15, 23, 42, 0.95);
+            z-index: -1;
+        }
+
+        @keyframes navGlow {
+            to {
+                background-position: 260% 0;
+            }
+        }
+
+        nav a:hover,
+        nav a:focus-visible {
+            color: #ffffff;
+            transform: translateY(-1px);
+            box-shadow: 0 6px 18px rgba(0, 0, 0, 0.7);
+        }
+
+        nav a:hover::before,
+        nav a:focus-visible::before,
+        nav a.active::before {
+            opacity: 1;
+            animation: navGlow 4s linear infinite;
+        }
+
+        nav a.active {
+            color: #ffffff;
+            box-shadow: 0 8px 22px rgba(0, 0, 0, 0.85);
+        }
+
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 26px 18px 60px;
+        }
+
+        /* ===== PANELS WITH GLOWING BORDERS ===== */
+
+        .card,
+        .text-box,
+        .hero-image-box {
+            position: relative;
+            background: var(--panel-bg);
+            border-radius: 20px;
+            box-shadow: 0 18px 45px rgba(0, 0, 0, 0.9);
+            overflow: hidden;
+        }
+
+        .card::before,
+        .text-box::before,
+        .hero-image-box::before {
+            content: "";
+            position: absolute;
+            inset: -2px;
+            border-radius: inherit;
+            background: linear-gradient(120deg,
+                    #000000,
+                    #16a34a,
+                    #ffffff,
+                    #16a34a,
+                    #000000);
+            background-size: 300% 300%;
+            z-index: -1;
+            animation: borderGlow 6s linear infinite;
+        }
+
+        .card::after,
+        .text-box::after,
+        .hero-image-box::after {
+            content: "";
+            position: absolute;
+            inset: 1px;
+            border-radius: inherit;
+            background: var(--panel-bg);
+            z-index: -1;
+        }
+
+        /* ===== HERO SECTION ===== */
+        .hero {
+            position: relative;
+            border-radius: 20px;
+            box-shadow: 0 18px 45px rgba(0, 0, 0, 0.9);
+            overflow: hidden;
+
+            display: grid;
+            grid-template-columns: 1.4fr 1fr;
+            gap: 32px;
+            align-items: center;
+            padding: 34px 28px;
+            min-height: 380px;
+            margin-bottom: 48px;
+
+            background:
+                linear-gradient(to top, rgba(0, 0, 0, 0.92), rgba(0, 0, 0, 0.65)),
+                url("grass.webp");
+            background-size: cover;
+            background-position: bottom center;
+            backdrop-filter: blur(10px);
+        }
+
+        .hero::before {
+            content: "";
+            position: absolute;
+            inset: -2px;
+            border-radius: inherit;
+            background: linear-gradient(120deg,
+                    #000000,
+                    #16a34a,
+                    #ffffff,
+                    #16a34a,
+                    #000000);
+            background-size: 300% 300%;
+            z-index: -1;
+            animation: borderGlow 6s linear infinite;
+        }
+
+        .hero::after {
+            content: "";
+            position: absolute;
+            inset: 1px;
+            border-radius: inherit;
+            background: transparent;
+            z-index: -1;
+        }
+
+        .badge {
+            display: inline-block;
+            font-size: 0.8rem;
+            padding: 4px 12px;
+            border-radius: 999px;
+            background: rgba(22, 163, 74, 0.4);
+            color: #bbf7d0;
+            margin-bottom: 12px;
+        }
+
+        .hero-title {
+            font-size: 2.4rem;
+            color: #f9fafb;
+            margin-bottom: 14px;
+            text-shadow: 0 0 16px rgba(0, 0, 0, 0.7);
+        }
+
+        .hero-title span {
+            background: linear-gradient(135deg, #ffffff, #16a34a);
+            -webkit-background-clip: text;
+            color: transparent;
+        }
+
+        .hero-text {
+            font-size: 0.98rem;
+            line-height: 1.9;
+            color: var(--text-muted);
+            max-width: 95%;
+        }
+
+        .hero-extra {
+            margin-top: 10px;
+            font-size: 0.9rem;
+            color: #d1fae5;
+        }
+
+        .hero-buttons {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-top: 18px;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 10px 20px;
+            border-radius: 999px;
+            border: none;
+            cursor: pointer;
+            font-size: 0.9rem;
+            font-weight: 600;
+            transition:
+                background 0.25s ease,
+                color 0.25s ease,
+                transform 0.2s ease,
+                box-shadow 0.2s ease,
+                opacity 0.2s ease;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #16a34a, #22c55e);
+            color: #ffffff;
+            box-shadow: 0 10px 24px rgba(21, 128, 61, 0.7);
+        }
+
+        .btn-primary:hover {
+            background: linear-gradient(135deg, #15803d, #16a34a);
+            transform: translateY(-2px);
+            box-shadow: 0 14px 30px rgba(22, 163, 74, 0.8);
+        }
+
+        .btn-primary:active {
+            transform: translateY(0);
+            box-shadow: 0 6px 16px rgba(21, 128, 61, 0.55);
+            opacity: 0.9;
+        }
+
+        .btn-outline {
+            background: transparent;
+            border: 1px solid rgba(148, 163, 184, 0.8);
+            color: #f9fafb;
+            backdrop-filter: blur(6px);
+        }
+
+        .btn-outline:hover {
+            background: linear-gradient(135deg, rgba(22, 163, 74, 0.18), rgba(255, 255, 255, 0.06));
+            transform: translateY(-2px);
+            box-shadow: 0 8px 22px rgba(0, 0, 0, 0.75);
+        }
+
+        .btn-outline:active {
+            transform: translateY(0);
+            box-shadow: 0 4px 14px rgba(0, 0, 0, 0.7);
+            opacity: 0.95;
+        }
+
+        .hero-right {
+            display: grid;
+            grid-template-rows: auto auto;
+            gap: 22px;
+        }
+
+        .hero-image-box {
+            height: 210px;
+            backdrop-filter: blur(10px);
+        }
+
+        .hero-slides {
+            position: absolute;
+            inset: 0;
+            border-radius: inherit;
+            overflow: hidden;
+        }
+
+        .hero-slide {
+            position: absolute;
+            inset: 0;
+            background-size: cover;
+            background-position: center;
+            opacity: 0;
+            animation: heroSlideshow 25s infinite;
+        }
+
+        .hero-slide-1 {
+            background-image: url("assets/agriculture.jpg");
+            animation-delay: 0s;
+        }
+
+        .hero-slide-2 {
+            background-image: url("assets/scanmen.jpg");
+            animation-delay: 5s;
+        }
+
+        .hero-slide-3 {
+            background-image: url("assets/sprayrobot.jpg");
+            animation-delay: 10s;
+        }
+
+        .hero-slide-4 {
+            background-image: url("assets/drone1.jpg");
+            animation-delay: 15s;
+        }
+
+        .hero-slide-5 {
+            background-image: url("assets/tractor.jpg");
+            animation-delay: 20s;
+        }
+
+        .hero-image-overlay-text {
+            position: absolute;
+            inset: auto 12px 12px 12px;
+            background: linear-gradient(120deg, rgba(0, 0, 0, 0.9), rgba(22, 163, 74, 0.85));
+            color: #f9fafb;
+            font-size: 0.8rem;
+            padding: 7px 10px;
+            border-radius: 999px;
+            text-align: center;
+            backdrop-filter: blur(6px);
+        }
+
+        .card {
+            padding: 20px 18px 18px;
+            font-size: 0.9rem;
+            margin-top: 4px;
+            min-height: 190px;
+        }
+
+        .card h3 {
+            margin-bottom: 10px;
+            font-size: 1rem;
+            color: #f9fafb;
+        }
+
+        .section-block {
+            margin-top: 50px;
+        }
+
+        .section-title {
+            font-size: 1.7rem;
+            color: #f9fafb;
+            margin-bottom: 10px;
+        }
+
+        .section-subtitle {
+            font-size: 0.94rem;
+            color: var(--text-muted);
+            margin-bottom: 20px;
+        }
+
+        /* ===== BIG GRAPH SECTION (FULL WIDTH, MODERN) ===== */
+
+        .graph-stack {
+            display: flex;
+            flex-direction: column;
+            gap: 28px;
+        }
+
+        /* remove solid background for graph & flowchart cards */
+        .graph-card,
+        .flowchart {
+            background: transparent;
+            box-shadow: none;
+            border-radius: 26px;
+            border: 1px solid rgba(148, 163, 184, 0.6);
+            padding: 26px 24px 28px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .graph-card::before,
+        .graph-card::after,
+        .flowchart::before,
+        .flowchart::after {
+            display: none;
+        }
+
+        .graph-card h3 {
+            font-size: 1.05rem;
+        }
+
+        .mini-caption {
+            margin-top: 10px;
+            color: var(--text-muted);
+            font-size: 0.8rem;
+        }
+
+        /* Bar Chart – triangular infographic style */
+        .bar-chart {
+            display: flex;
+            align-items: flex-end;
+            gap: 18px;
+            height: 220px;
+            margin-top: 16px;
+        }
+
+        .bar {
+            flex: 1;
+            position: relative;
+            transform-origin: bottom;
+            transform: scaleY(0);
+            animation: growBar 0.9s ease-out forwards;
+        }
+
+        .bar:nth-child(2) {
+            animation-delay: 0.15s;
+        }
+
+        .bar:nth-child(3) {
+            animation-delay: 0.3s;
+        }
+
+        .bar::before {
+            content: "";
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(180deg, #fde68a, #f97316, #7f1d1d);
+            clip-path: polygon(50% 0, 100% 100%, 0 100%);
+            box-shadow: 0 12px 30px rgba(248, 113, 113, 0.5);
+            border-radius: 0 0 12px 12px;
+        }
+
+        .bar::after {
+            content: attr(data-label);
+            position: absolute;
+            bottom: -22px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 0.8rem;
+            color: var(--text-muted);
+        }
+
+        .bar span {
+            position: absolute;
+            top: 10px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 0.8rem;
+            font-weight: 600;
+            color: #111827;
+        }
+
+        /* Line chart using SVG – glowing line on dark gradient */
+        .line-chart-wrapper {
+            margin-top: 18px;
+            padding: 14px 18px;
+            border-radius: 18px;
+            background: linear-gradient(180deg, rgba(15, 23, 42, 0.9), rgba(0, 0, 0, 0.8));
+            box-shadow: 0 16px 40px rgba(0, 0, 0, 0.9);
+        }
+
+        .line-chart-wrapper svg {
+            width: 100%;
+            height: 220px;
+        }
+
+        .line-chart-grid line {
+            stroke: rgba(148, 163, 184, 0.3);
+            stroke-width: 0.5;
+        }
+
+        .line-chart-path {
+            fill: url(#gradLine);
+            stroke: #fb7185;
+            stroke-width: 2.2;
+            filter: drop-shadow(0 0 8px rgba(248, 113, 113, 0.9));
+            stroke-dasharray: 400;
+            stroke-dashoffset: 400;
+            animation: drawLine 2s ease-out forwards;
+        }
+
+        /* Donut Chart */
+        .donut-layout {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 24px;
+            align-items: center;
+            margin-top: 16px;
+        }
+
+        .donut-wrapper {
+            position: relative;
+            width: 190px;
+            height: 190px;
+        }
+
+        .donut-ring {
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            background:
+                conic-gradient(#22c55e 0 45%,
+                    #a855f7 45% 75%,
+                    #f97316 75% 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 18px 45px rgba(0, 0, 0, 0.9);
+        }
+
+        .donut-inner {
+            width: 60%;
+            height: 60%;
+            border-radius: 50%;
+            background: radial-gradient(circle at top, #111827, #020617);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.85rem;
+        }
+
+        .donut-legend {
+            font-size: 0.82rem;
+            list-style: none;
+        }
+
+        .donut-legend li {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            margin-bottom: 4px;
+        }
+
+        .dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 999px;
+        }
+
+        .dot-water {
+            background: #22c55e;
+        }
+
+        .dot-fert {
+            background: #a855f7;
+        }
+
+        .dot-cost {
+            background: #f97316;
+        }
+
+        /* ===== FLOWCHART SECTION – colourful nodes ===== */
+
+        .flowchart {
+            margin-top: 26px;
+        }
+
+        .flow-rail {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 16px;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .flow-node {
+            min-width: 140px;
+            padding: 12px 14px;
+            border-radius: 16px;
+            text-align: center;
+            font-size: 0.8rem;
+            color: #f9fafb;
+            box-shadow: 0 14px 35px rgba(0, 0, 0, 0.9);
+        }
+
+        .flow-node strong {
+            font-size: 0.85rem;
+            display: block;
+            margin-bottom: 4px;
+        }
+
+        .node-sensors {
+            background: linear-gradient(135deg, #14532d, #22c55e);
+            border: 1px solid #22c55e;
+        }
+
+        .node-gateway {
+            background: linear-gradient(135deg, #0f172a, #38bdf8);
+            border: 1px solid #38bdf8;
+        }
+
+        .node-ai {
+            background: linear-gradient(135deg, #1e1b4b, #a855f7);
+            border: 1px solid #a855f7;
+        }
+
+        .node-app {
+            background: linear-gradient(135deg, #022c22, #2dd4bf);
+            border: 1px solid #2dd4bf;
+        }
+
+        .node-action {
+            background: linear-gradient(135deg, #451a03, #f97316);
+            border: 1px solid #f97316;
+        }
+
+        .flow-arrow {
+            font-size: 1.4rem;
+            color: #fbbf24;
+            text-shadow: 0 0 10px rgba(250, 204, 21, 0.9);
+            opacity: 0.9;
+        }
+
+        /* ===== NEW TECHNOLOGIES LAYOUT – ONE BELOW ANOTHER ===== */
+
+        .tech-list {
+            display: flex;
+            flex-direction: column;
+            gap: 28px;
+        }
+
+        .tech-item {
+            display: grid;
+            grid-template-columns: minmax(0, 1.1fr) minmax(0, 1.3fr);
+            gap: 24px;
+            align-items: stretch;
+            padding: 22px 22px 20px;
+        }
+
+        .tech-main h3 {
+            font-size: 1.1rem;
+            margin-bottom: 8px;
+        }
+
+        .tech-main p {
+            color: var(--text-muted);
+            font-size: 0.9rem;
+            margin-bottom: 8px;
+        }
+
+        .tech-main ul {
+            margin-left: 18px;
+            margin-top: 4px;
+            font-size: 0.86rem;
+            color: #e5e7eb;
+        }
+
+        .tech-main li {
+            margin-bottom: 3px;
+        }
+
+        .tech-main a {
+            display: inline-block;
+            margin-top: 12px;
+            font-size: 0.82rem;
+            padding: 8px 14px;
+            border-radius: 999px;
+            border: 1px solid rgba(34, 197, 94, 0.9);
+            color: #bbf7d0;
+            text-decoration: none;
+            font-weight: 600;
+            background: linear-gradient(135deg,
+                    rgba(0, 0, 0, 0.9),
+                    rgba(22, 163, 74, 0.4));
+            box-shadow: 0 6px 18px rgba(0, 0, 0, 0.9);
+            position: relative;
+            transition:
+                transform 0.22s ease,
+                box-shadow 0.22s ease,
+                background 0.22s ease;
+        }
+
+        .tech-main a::after {
+            content: "";
+            position: absolute;
+            inset: 0;
+            background: radial-gradient(circle at 0 0,
+                    rgba(255, 255, 255, 0.4),
+                    transparent 55%);
+            opacity: 0;
+            transition: opacity 0.22s ease;
+        }
+
+        .tech-main a:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 10px 26px rgba(0, 0, 0, 1);
+            background: linear-gradient(135deg,
+                    rgba(22, 163, 74, 0.7),
+                    rgba(0, 0, 0, 0.9));
+        }
+
+        .tech-main a:hover::after {
+            opacity: 1;
+        }
+
+        .tech-side {
+            font-size: 0.9rem;
+            color: #e5e7eb;
+            line-height: 1.7;
+        }
+
+        .tech-side strong {
+            color: #bbf7d0;
+        }
+
+        /* alternate left/right */
+        .tech-item.reverse .tech-main {
+            order: 2;
+        }
+
+        .tech-item.reverse .tech-side {
+            order: 1;
+        }
+
+        .text-box {
+            padding: 22px 22px 18px;
+            margin-top: 30px;
+        }
+
+        .text-box ul {
+            margin-left: 18px;
+        }
+
+        .text-box li {
+            color: #e5e7eb;
+            margin-bottom: 4px;
+        }
+
+        footer {
+            margin-top: 40px;
+            background: #000000;
+            color: #e5e7eb;
+            text-align: center;
+            padding: 12px 6px;
+            font-size: 0.85rem;
+            border-top: 1px solid #16a34a;
+        }
+
+        footer span {
+            color: #bbf7d0;
+        }
+
+        /* ===== PAGE / GRAPH ANIMATIONS ===== */
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(6px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes heroSlideshow {
+            0% {
+                opacity: 0;
+            }
+
+            8% {
+                opacity: 1;
+            }
+
+            17% {
+                opacity: 1;
+            }
+
+            21% {
+                opacity: 0;
+            }
+
+            100% {
+                opacity: 0;
+            }
+        }
+
+        @keyframes borderGlow {
+            0% {
+                background-position: 0% 50%;
+            }
+
+            50% {
+                background-position: 100% 50%;
+            }
+
+            100% {
+                background-position: 0% 50%;
+            }
+        }
+
+        @keyframes growBar {
+            from {
+                transform: scaleY(0);
+            }
+
+            to {
+                transform: scaleY(1);
+            }
+        }
+
+        @keyframes drawLine {
+            to {
+                stroke-dashoffset: 0;
+            }
+        }
+
+        /* box movement at site start */
+        @keyframes slideDown {
+            from {
+                opacity: 0;
+                transform: translateY(-30px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes slideFromLeft {
+            from {
+                opacity: 0;
+                transform: translateX(-40px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        @keyframes slideFromRight {
+            from {
+                opacity: 0;
+                transform: translateX(40px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        .motion-down {
+            animation: slideDown 0.9s ease-out both;
+        }
+
+        .motion-up {
+            animation: slideUp 0.9s ease-out both;
+        }
+
+        .motion-left {
+            animation: slideFromLeft 0.9s ease-out both;
+        }
+
+        .motion-right {
+            animation: slideFromRight 0.9s ease-out both;
+        }
+
+        /* ===== TYPEWRITER EFFECT (for elements with data-typewrite) ===== */
+        [data-typewrite] {
+            white-space: normal;
+        }
+
+        /* ===== Responsive ===== */
+        @media (max-width: 900px) {
+            .hero {
+                grid-template-columns: 1fr;
+            }
+
+            .hero-right {
+                order: -1;
+            }
+        }
+
+        @media (max-width: 800px) {
+            .tech-item {
+                grid-template-columns: 1fr;
+            }
+
+            .tech-item.reverse .tech-main,
+            .tech-item.reverse .tech-side {
+                order: initial;
+            }
+        }
+
+        @media (max-width: 700px) {
+            .hero-title {
+                font-size: 2rem;
+            }
+        }
+
+        @media (max-width: 520px) {
+            .hero-title {
+                font-size: 1.8rem;
+            }
+
+            .donut-layout {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <div class="nav-container">
+            <div class="logo">Agriculture Using Modern Technologies</div>
+            <nav>
+                <a href="index.html" class="active">Home</a>
+                <a href="problem-solution.html">Problem &amp; Solution</a>
+                <a href="technologies.html">Technologies</a>
+                <a href="use-cases.html">Use Cases</a>
+                <a href="contact.html">Contact</a>
+            </nav>
+        </div>
+    </header>
+
+    <main class="container">
+        <!-- HERO (moves down) -->
+        <section class="hero motion-down">
+            <div>
+                <span class="badge">Precision Agriculture • Data-driven Farming</span>
+                <h1 class="hero-title" data-typewrite>Precision Agriculture using <span>Modern Technologies</span></h1>
+                <p class="hero-text" data-typewrite>
+                    Traditional farming is mostly <b>area-based</b>: same crop, same irrigation, same
+                    fertilizer plan for the whole village. Our approach is <b>data-based</b>: every field is
+                    monitored separately using IoT sensors, drones, satellites and a mobile app so that
+                    farmers get <b>field-specific recommendations</b>.
+                </p>
+                <p class="hero-extra" data-typewrite>
+                    This system continuously watches soil, weather and crop health and converts raw data
+                    into <b>simple messages for farmers</b> like “Irrigate today evening” or “Spray only in the
+                    north side plot”.
+                </p>
+
+                <div class="hero-buttons">
+                    <button class="btn btn-primary" onclick="location.href='technologies.html'">
+                        View All Technologies
+                    </button>
+                    <button class="btn btn-outline" onclick="location.href='problem-solution.html'">
+                        Understand the Problem
+                    </button>
+                </div>
+            </div>
+
+            <div class="hero-right">
+                <div class="hero-image-box">
+                    <div class="hero-slides">
+                        <div class="hero-slide hero-slide-1"></div>
+                        <div class="hero-slide hero-slide-2"></div>
+                        <div class="hero-slide hero-slide-3"></div>
+                        <div class="hero-slide hero-slide-4"></div>
+                        <div class="hero-slide hero-slide-5"></div>
+                    </div>
+                    <div class="hero-image-overlay-text">
+                        Smart Farming • IoT Sensors • Drones • Satellites • Mobile App
+                    </div>
+                </div>
+
+                <div class="card motion-up" style="animation-delay:0.2s;">
+                    <h3>Smart Farm Snapshot</h3>
+                    <p style="font-size:0.9rem;">
+                        Soil Moisture: 65% (ideal)<br>
+                        Soil pH: 6.8 (normal)<br>
+                        NPK Status: Balanced<br>
+                        Next Irrigation: In 4 hours<br>
+                        Alert: Possible pest stress in north plot (from drone image)<br>
+                        Advisory: Use 20% less water this week due to expected rain.
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- ===== DATA VISUALS SECTION (BIG GRAPHS + FLOWCHART) ===== -->
+        <section class="section-block">
+            <h2 class="section-title motion-left" data-typewrite>Farm Data Overview &amp; Decision Flow</h2>
+            <p class="section-subtitle motion-right" data-typewrite style="animation-delay:0.1s;">
+                These modern infographic-style graphs show how <b>sensors, analytics and automation</b> work
+                together to support data-driven farming.
+            </p>
+
+            <div class="graph-stack">
+                <!-- Bar chart full width (slide from left) -->
+                <article class="graph-card motion-left">
+                    <h3>Water Use vs Traditional</h3>
+                    <div class="bar-chart">
+                        <div class="bar" style="height: 95%;" data-label="Old">
+                            <span>100%</span>
+                        </div>
+                        <div class="bar" style="height: 70%;" data-label="Year 1">
+                            <span>70%</span>
+                        </div>
+                        <div class="bar" style="height: 55%;" data-label="Year 2">
+                            <span>55%</span>
+                        </div>
+                    </div>
+                    <p class="mini-caption">
+                        Approximate water usage when moving from traditional irrigation to
+                        sensor-based smart irrigation (demo values).
+                    </p>
+                </article>
+
+                <!-- Line chart full width (slide from right) -->
+                <article class="graph-card motion-right" style="animation-delay:0.1s;">
+                    <h3>Soil Moisture Trend (Week)</h3>
+                    <div class="line-chart-wrapper">
+                        <svg viewBox="0 0 120 80">
+                            <!-- grid lines -->
+                            <g class="line-chart-grid">
+                                <line x1="0" y1="20" x2="120" y2="20" />
+                                <line x1="0" y1="40" x2="120" y2="40" />
+                                <line x1="0" y1="60" x2="120" y2="60" />
+                            </g>
+                            <!-- gradient for fill -->
+                            <defs>
+                                <linearGradient id="gradLine" x1="0" x2="0" y1="0" y2="1">
+                                    <stop offset="0%" stop-color="#fb7185" stop-opacity="0.7" />
+                                    <stop offset="100%" stop-color="#111827" stop-opacity="0" />
+                                </linearGradient>
+                            </defs>
+                            <!-- path (demo data) -->
+                            <path class="line-chart-path"
+                                d="M0 50 L20 38 L40 35 L60 32 L80 36 L100 42 L120 40 L120 80 L0 80 Z" />
+                        </svg>
+                    </div>
+                    <p class="mini-caption">
+                        Sensor keeps soil moisture in the <b>optimal band</b>, avoiding over-dry and
+                        over-wet conditions (illustrative graph).
+                    </p>
+                </article>
+
+                <!-- Donut chart full width (slide up) -->
+                <article class="graph-card motion-up" style="animation-delay:0.2s;">
+                    <h3>Overall Savings Breakdown</h3>
+                    <div class="donut-layout">
+                        <div class="donut-wrapper">
+                            <div class="donut-ring">
+                                <div class="donut-inner">
+                                    100%<br>Saving
+                                </div>
+                            </div>
+                        </div>
+                        <div>
+                            <ul class="donut-legend">
+                                <li><span class="dot dot-water"></span> Water saved – 45%</li>
+                                <li><span class="dot dot-fert"></span> Fertilizer saved – 30%</li>
+                                <li><span class="dot dot-cost"></span> Other cost saved – 25%</li>
+                            </ul>
+                            <p class="mini-caption" style="margin-top:8px;">
+                                Indicative split of total savings when precision methods are
+                                applied across the farm (demo values).
+                            </p>
+                        </div>
+                    </div>
+                </article>
+            </div>
+
+            <!-- FLOWCHART (slide up) -->
+            <article class="flowchart motion-up" style="margin-top:28px; animation-delay:0.25s;">
+                <h3 style="margin-bottom:10px;" data-typewrite>Data Flow: From Field to Farmer Decision</h3>
+                <div class="flow-rail">
+                    <div class="flow-node node-sensors">
+                        <strong>IoT Sensors</strong>
+                        Soil, weather, water level
+                    </div>
+                    <div class="flow-arrow">➜</div>
+                    <div class="flow-node node-gateway">
+                        <strong>Gateway / Cloud</strong>
+                        Data collection &amp; storage
+                    </div>
+                    <div class="flow-arrow">➜</div>
+                    <div class="flow-node node-ai">
+                        <strong>AI Analytics</strong>
+                        Pattern detection, prediction
+                    </div>
+                    <div class="flow-arrow">➜</div>
+                    <div class="flow-node node-app">
+                        <strong>Farmer App</strong>
+                        Simple advice &amp; alerts
+                    </div>
+                    <div class="flow-arrow">➜</div>
+                    <div class="flow-node node-action">
+                        <strong>Smart Action</strong>
+                        Controlled irrigation / spraying
+                    </div>
+                </div>
+            </article>
+        </section>
+
+        <!-- ===== KEY MODERN TECHNOLOGIES – ONE AFTER ANOTHER ===== -->
+        <section class="section-block">
+            <h2 class="section-title motion-left" data-typewrite>Key Modern Technologies</h2>
+            <p class="section-subtitle motion-right" data-typewrite style="animation-delay:0.1s;">
+                Each technology below opens in a separate page with full information on
+                <b>what it is</b>, <b>how it works in agriculture</b> and <b>why we use it</b>.
+                On this home page we show a quick summary and a small explanation on the side.
+            </p>
+
+            <div class="tech-list">
+
+                <!-- IoT Sensors -->
+                <article class="card tech-item motion-left">
+                    <div class="tech-main">
+                        <h3>IoT Sensors</h3>
+                        <p>Measure soil moisture, temperature, pH and nutrient levels directly in the field.</p>
+                        <ul>
+                            <li>Installed at different points inside the farm.</li>
+                            <li>Send readings automatically every few minutes.</li>
+                            <li>Work on battery or small solar panels.</li>
+                            <li>Connect to gateway / mobile through Wi-Fi, LoRa, or GSM.</li>
+                        </ul>
+                        <a href="tech-iot.html">Open full information →</a>
+                    </div>
+                    <div class="tech-side" data-typewrite>
+                        <strong>How it helps farmers:</strong>
+                        <br><br>
+                        With IoT sensors we don’t have to guess whether the soil is dry or wet. The system
+                        continuously checks <b>moisture, pH and NPK</b> and shows a simple color status:
+                        green = OK, yellow = caution, red = problem. Farmers can see this on their mobile app,
+                        know exactly <b>when to irrigate</b> and avoid over-watering and over-fertilizing the land.
+                    </div>
+                </article>
+
+                <!-- Drones -->
+                <article class="card tech-item reverse motion-right">
+                    <div class="tech-main">
+                        <h3>Drones</h3>
+                        <p>Capture aerial images to detect crop stress, pests and waterlogging early.</p>
+                        <ul>
+                            <li>Fly above the field and take HD or thermal images.</li>
+                            <li>Cover large area in very short time.</li>
+                            <li>Detect patch-wise stress not visible from ground.</li>
+                            <li>Can also be used for <b>spraying</b> in targeted zones.</li>
+                        </ul>
+                        <a href="tech-drones.html">Open full information →</a>
+                    </div>
+                    <div class="tech-side" data-typewrite>
+                        <strong>Why drones are important:</strong>
+                        <br><br>
+                        Human eye can see only from the edge of the plot. Drone images give a <b>top view of the
+                            entire farm</b> and analytics highlight areas where plants are weak or attacked by pests.
+                        This allows <b>spot treatment</b> instead of spraying chemicals everywhere, which saves money
+                        and also protects the environment.
+                    </div>
+                </article>
+
+                <!-- Satellites -->
+                <article class="card tech-item motion-left">
+                    <div class="tech-main">
+                        <h3>Satellites</h3>
+                        <p>Provide large-scale data on weather, rainfall and vegetation index for planning.</p>
+                        <ul>
+                            <li>Give NDVI / vegetation index for crop health trend.</li>
+                            <li>Help in monitoring big areas: village, block, district.</li>
+                            <li>Useful for drought / flood monitoring and planning.</li>
+                            <li>Supports government schemes and crop insurance.</li>
+                        </ul>
+                        <a href="tech-satellites.html">Open full information →</a>
+                    </div>
+                    <div class="tech-side" data-typewrite>
+                        <strong>Planning at bigger scale:</strong>
+                        <br><br>
+                        Satellites are like the “eyes in the sky” for agriculture departments and FPOs.
+                        They can see <b>overall crop health, sowing area and growth stage</b>. Combining satellite
+                        data with field sensors gives a full picture – micro level and macro level – which is
+                        useful for advance warnings and better policy decisions.
+                    </div>
+                </article>
+
+                <!-- Mobile App -->
+                <article class="card tech-item reverse motion-right">
+                    <div class="tech-main">
+                        <h3>Farmer Mobile App</h3>
+                        <p>Delivers advisories, alerts and recommendations in simple local language.</p>
+                        <ul>
+                            <li>Shows live data from sensors, drones and satellites.</li>
+                            <li>Gives voice + text messages for low-literacy users.</li>
+                            <li>Sends alerts for irrigation, fertilizer and pest control.</li>
+                            <li>Stores field history and previous crop performance.</li>
+                        </ul>
+                        <a href="tech-mobile-app.html">Open full information →</a>
+                    </div>
+                    <div class="tech-side" data-typewrite>
+                        <strong>Bridge between technology and farmer:</strong>
+                        <br><br>
+                        All complex analytics finally come to the farmer through a <b>simple mobile screen</b>.
+                        The app converts technical terms into easy “Do / Don’t do” type suggestions, supports
+                        the local language and can also work in <b>offline mode</b> with SMS/IVR for remote areas.
+                    </div>
+                </article>
+
+                <!-- Cloud & AI -->
+                <article class="card tech-item motion-left">
+                    <div class="tech-main">
+                        <h3>Cloud &amp; AI Analytics</h3>
+                        <p>Stores and analyzes data to generate smart, field-specific decisions.</p>
+                        <ul>
+                            <li>Collects data from sensors, drones, satellites and weather APIs.</li>
+                            <li>Uses AI/ML models to predict irrigation, yield and disease risk.</li>
+                            <li>Creates farmer-wise and plot-wise digital records.</li>
+                            <li>Helps in long-term planning and benchmarking.</li>
+                        </ul>
+                        <a href="tech-cloud-ai.html">Open full information →</a>
+                    </div>
+                    <div class="tech-side" data-typewrite>
+                        <strong>Brain of the entire system:</strong>
+                        <br><br>
+                        Cloud servers work like a central brain. They receive raw readings and images,
+                        clean them and run <b>AI algorithms</b> to generate advice. Over time the system
+                        learns from previous seasons and becomes more accurate, so that every farmer gets
+                        <b>personalised recommendations</b> based on his field history.
+                    </div>
+                </article>
+
+                <!-- Automation & Smart Irrigation -->
+                <article class="card tech-item reverse motion-right">
+                    <div class="tech-main">
+                        <h3>Automation &amp; Smart Irrigation</h3>
+                        <p>Automatically controls pumps and valves based on real-time soil moisture.</p>
+                        <ul>
+                            <li>Turns motor ON/OFF based on sensor threshold values.</li>
+                            <li>Supports drip, sprinkler and traditional canal systems.</li>
+                            <li>Can be operated remotely from mobile app.</li>
+                            <li>Reduces labour and prevents over-irrigation at night.</li>
+                        </ul>
+                        <a href="tech-automation.html">Open full information →</a>
+                    </div>
+                    <div class="tech-side" data-typewrite>
+                        <strong>From advice to action:</strong>
+                        <br><br>
+                        Instead of only telling the farmer “irrigate now”, smart irrigation can <b>actually
+                            start and stop the pump automatically</b>. This saves time, avoids night visits to
+                        the field and ensures that every crop row receives the right amount of water at the
+                        right time, improving yield and saving electricity.
+                    </div>
+                </article>
+
+            </div>
+        </section>
+
+        <section class="text-box motion-up" style="animation-delay:0.1s;">
+            <h2 class="section-title" data-typewrite>Overall Impact</h2>
+            <ul style="margin-left:18px; margin-top:8px; font-size:0.9rem;" data-typewrite>
+                <li>Increase crop yield and quality using data-driven decisions.</li>
+                <li>Reduce wastage of water, fertilizers and pesticides.</li>
+                <li>Improve soil health and protect the environment.</li>
+                <li>Support government schemes through accurate, real-time data.</li>
+                <li>Create digital records for each farmer and each plot for future planning.</li>
+            </ul>
+        </section>
+    </main>
+
+    <footer>
+        &copy; <span>2025</span> Agriculture Using All Modern Technologies • Project Website
+    </footer>
+
+    <!-- ===== JS: TYPEWRITER ONLY ===== -->
+    <script>
+        // Typewriter effect for elements with data-typewrite
+        function runTypewriter() {
+            const elements = document.querySelectorAll('[data-typewrite]');
+            elements.forEach((el, index) => {
+                const full = el.textContent.trim();
+                el.textContent = '';
+                let i = 0;
+
+                function type() {
+                    if (i <= full.length) {
+                        el.textContent = full.slice(0, i);
+                        i++;
+                        setTimeout(type, 18);
+                    }
+                }
+                // small delay between elements
+                setTimeout(type, index * 250);
+            });
+        }
+
+        document.addEventListener('DOMContentLoaded', runTypewriter);
+    </script>
+</body>
+
+</html>

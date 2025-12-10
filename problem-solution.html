@@ -1,0 +1,561 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Problem & Solution | Agriculture Using Modern Technologies</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- All CSS is inside this file -->
+    <style>
+        /* ====== RESET ====== */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html,
+        body {
+            height: 100%;
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+            color: #f5f5ff;
+            background-color: #000;
+            background-image: url("assets/img/problem-solution-bg.jpg");
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            position: relative;
+        }
+
+        /* dark overlay on the background image */
+        body::before {
+            content: "";
+            position: fixed;
+            inset: 0;
+            background: radial-gradient(circle at top, rgba(90, 0, 120, 0.4), transparent 55%),
+                radial-gradient(circle at bottom, rgba(0, 150, 80, 0.35), rgba(0, 0, 0, 0.9));
+            z-index: -1;
+        }
+
+        /* ====== LAYOUT ====== */
+        .container {
+            max-width: 1100px;
+            margin: 6rem auto 3rem auto;
+            padding: 0 1.5rem 3rem;
+        }
+
+        header {
+            position: sticky;
+            top: 0;
+            z-index: 50;
+            backdrop-filter: blur(12px);
+            background: linear-gradient(to right, rgba(5, 5, 10, 0.92), rgba(5, 5, 20, 0.92));
+            border-bottom: 1px solid rgba(120, 120, 255, 0.3);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.65);
+        }
+
+        .nav-container {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 0.75rem 1.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 1rem;
+        }
+
+        .logo {
+            font-weight: 700;
+            letter-spacing: 0.03em;
+            font-size: 1rem;
+            text-transform: uppercase;
+            background: linear-gradient(120deg, #7f5af0, #2cb67d);
+            -webkit-background-clip: text;
+            color: transparent;
+            text-shadow: 0 0 15px rgba(127, 90, 240, 0.8);
+        }
+
+        nav {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.4rem;
+        }
+
+        nav a {
+            position: relative;
+            display: inline-block;
+            padding: 0.45rem 0.9rem;
+            border-radius: 999px;
+            font-size: 0.85rem;
+            text-decoration: none;
+            color: #e0e0ff;
+            border: 1px solid rgba(127, 90, 240, 0.3);
+            background: radial-gradient(circle at top left, rgba(127, 90, 240, 0.18), rgba(5, 5, 15, 0.95));
+            transition: all 0.25s ease;
+        }
+
+        nav a:hover,
+        nav a:focus-visible {
+            background: linear-gradient(120deg, #7f5af0, #2cb67d);
+            color: #050816;
+            box-shadow: 0 0 10px rgba(127, 90, 240, 0.8),
+                0 0 18px rgba(44, 182, 125, 0.8);
+            border-color: transparent;
+            outline: none;
+        }
+
+        nav a.active {
+            background: linear-gradient(120deg, #2cb67d, #7f5af0);
+            color: #050816;
+            box-shadow: 0 0 14px rgba(44, 182, 125, 0.9),
+                0 0 26px rgba(127, 90, 240, 0.9);
+            border-color: transparent;
+        }
+
+        /* ====== HERO TEXT ====== */
+        .tag {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.4rem;
+            padding: 0.25rem 0.8rem;
+            border-radius: 999px;
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.09em;
+            background: rgba(15, 23, 42, 0.9);
+            border: 1px solid rgba(127, 90, 240, 0.7);
+            color: #e5e7eb;
+            margin-bottom: 0.9rem;
+        }
+
+        .tag::before {
+            content: "";
+            width: 8px;
+            height: 8px;
+            border-radius: 999px;
+            background: radial-gradient(circle, #2cb67d, #7f5af0);
+            box-shadow: 0 0 10px rgba(44, 182, 125, 0.9);
+        }
+
+        .section-title {
+            font-size: clamp(1.9rem, 4vw, 2.4rem);
+            margin-bottom: 0.5rem;
+            text-shadow: 0 0 18px rgba(0, 0, 0, 0.8);
+        }
+
+        .section-subtitle {
+            font-size: 0.98rem;
+            max-width: 720px;
+            color: #d1d5db;
+            line-height: 1.6;
+            margin-bottom: 2rem;
+        }
+
+        .section-subtitle b {
+            color: #e5e7ff;
+        }
+
+        /* ====== GRID LAYOUT ====== */
+        .two-col {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 1.5rem;
+            align-items: flex-start;
+        }
+
+        .text-box {
+            background: radial-gradient(circle at top left, rgba(127, 90, 240, 0.16), rgba(3, 7, 18, 0.96));
+            border-radius: 1.2rem;
+            padding: 1.3rem 1.25rem 1.1rem;
+            border: 1px solid rgba(148, 163, 184, 0.4);
+            box-shadow: 0 18px 45px rgba(0, 0, 0, 0.85);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .text-box::before {
+            content: "";
+            position: absolute;
+            inset: -1px;
+            background: conic-gradient(from 200deg,
+                    rgba(127, 90, 240, 0.8),
+                    rgba(44, 182, 125, 0.7),
+                    transparent 55%,
+                    transparent 100%);
+            opacity: 0;
+            transition: opacity 0.35s ease;
+            z-index: -1;
+        }
+
+        .text-box:hover::before {
+            opacity: 0.8;
+        }
+
+        .text-box h2 {
+            font-size: 1.1rem;
+            margin-bottom: 0.5rem;
+            color: #f9fafb;
+        }
+
+        .text-box p {
+            font-size: 0.92rem;
+            line-height: 1.6;
+            color: #e5e7eb;
+            margin-bottom: 0.6rem;
+        }
+
+        .text-box ul {
+            padding-left: 1.2rem;
+            font-size: 0.9rem;
+            color: #e5e7eb;
+        }
+
+        .text-box li {
+            margin-bottom: 0.3rem;
+        }
+
+        .text-box li::marker {
+            color: #2cb67d;
+        }
+
+        .note {
+            font-size: 0.83rem;
+            margin-top: 0.6rem;
+            padding: 0.4rem 0.6rem;
+            border-radius: 0.7rem;
+            background: rgba(15, 118, 110, 0.2);
+            border: 1px dashed rgba(45, 212, 191, 0.5);
+        }
+
+        /* ====== EXTRA INFO SECTION ====== */
+        .impact-section {
+            margin-top: 2.2rem;
+        }
+
+        .impact-heading {
+            font-size: 1.15rem;
+            margin-bottom: 0.6rem;
+        }
+
+        .impact-grid {
+            display: grid;
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            gap: 1rem;
+            font-size: 0.86rem;
+        }
+
+        .impact-card {
+            background: rgba(15, 23, 42, 0.9);
+            border-radius: 1rem;
+            padding: 0.9rem 0.8rem;
+            border: 1px solid rgba(55, 65, 81, 0.8);
+        }
+
+        .impact-card h3 {
+            font-size: 0.95rem;
+            margin-bottom: 0.35rem;
+            color: #f9fafb;
+        }
+
+        .impact-card ul {
+            padding-left: 1.1rem;
+        }
+
+        .impact-card li {
+            margin-bottom: 0.25rem;
+        }
+
+        /* ====== FOOTER ====== */
+        footer {
+            text-align: center;
+            padding: 1.1rem 1rem 1.4rem;
+            font-size: 0.8rem;
+            color: #9ca3af;
+            background: rgba(3, 7, 18, 0.94);
+            border-top: 1px solid rgba(55, 65, 81, 0.7);
+        }
+
+        /* ===================== */
+        /*   ANIMATIONS SECTION  */
+        /* ===================== */
+
+        @keyframes fadeUpSoft {
+            0% {
+                opacity: 0;
+                transform: translateY(24px) scale(0.97);
+                filter: blur(3px);
+            }
+
+            100% {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+                filter: blur(0);
+            }
+        }
+
+        @keyframes fadeSlideLeft {
+            0% {
+                opacity: 0;
+                transform: translateX(24px);
+                filter: blur(3px);
+            }
+
+            100% {
+                opacity: 1;
+                transform: translateX(0);
+                filter: blur(0);
+            }
+        }
+
+        @keyframes fadeSlideRight {
+            0% {
+                opacity: 0;
+                transform: translateX(-24px);
+                filter: blur(3px);
+            }
+
+            100% {
+                opacity: 1;
+                transform: translateX(0);
+                filter: blur(0);
+            }
+        }
+
+        /* Base: everything we animate starts hidden */
+        .tag,
+        .section-title,
+        .section-subtitle,
+        .text-box,
+        .impact-section,
+        .impact-card {
+            opacity: 0;
+        }
+
+        /* Hero text animation */
+        .tag {
+            animation: fadeUpSoft 0.7s ease-out 0.1s forwards;
+        }
+
+        .section-title {
+            animation: fadeUpSoft 0.7s ease-out 0.25s forwards;
+        }
+
+        .section-subtitle {
+            animation: fadeUpSoft 0.7s ease-out 0.4s forwards;
+        }
+
+        /* Left column text boxes */
+        .two-col>div:first-child .text-box:nth-of-type(1) {
+            animation: fadeSlideRight 0.8s ease-out 0.55s forwards;
+        }
+
+        .two-col>div:first-child .text-box:nth-of-type(2) {
+            animation: fadeSlideRight 0.8s ease-out 0.75s forwards;
+        }
+
+        /* Right column text boxes */
+        .two-col>div:last-child .text-box:nth-of-type(1) {
+            animation: fadeSlideLeft 0.8s ease-out 0.95s forwards;
+        }
+
+        .two-col>div:last-child .text-box:nth-of-type(2) {
+            animation: fadeSlideLeft 0.8s ease-out 1.15s forwards;
+        }
+
+        /* Impact section and its cards */
+        .impact-section {
+            animation: fadeUpSoft 0.8s ease-out 1.35s forwards;
+        }
+
+        .impact-card:nth-of-type(1) {
+            animation: fadeUpSoft 0.7s ease-out 1.5s forwards;
+        }
+
+        .impact-card:nth-of-type(2) {
+            animation: fadeUpSoft 0.7s ease-out 1.7s forwards;
+        }
+
+        .impact-card:nth-of-type(3) {
+            animation: fadeUpSoft 0.7s ease-out 1.9s forwards;
+        }
+
+        /* Small fade for header on first load */
+        header {
+            animation: fadeUpSoft 0.6s ease-out 0s forwards;
+            opacity: 0;
+        }
+
+        /* ====== RESPONSIVE ====== */
+        @media (max-width: 768px) {
+            .nav-container {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .two-col {
+                grid-template-columns: 1fr;
+            }
+
+            .impact-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .container {
+                margin-top: 5.2rem;
+            }
+
+            /* On mobile, use only fadeUp so it looks simpler */
+            .two-col>div .text-box {
+                animation: fadeUpSoft 0.7s ease-out 0.6s forwards;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <div class="nav-container">
+            <div class="logo">Agriculture Using Modern Technologies</div>
+            <nav>
+                <a href="index.html">Home</a>
+                <a href="problem-solution.html" class="active">Problem &amp; Solution</a>
+                <a href="technologies.html">Technologies</a>
+                <a href="use-cases.html">Use Cases</a>
+                <a href="contact.html">Contact</a>
+            </nav>
+        </div>
+    </header>
+
+    <main class="container">
+        <span class="tag">Project Background</span>
+        <h1 class="section-title">From Area-based to Data-based Farming</h1>
+        <p class="section-subtitle">
+            This page explains the <b>problem in conventional farming</b>,
+            why a change is needed, and how <b>modern technologies</b> provide a solution.
+            It also highlights the <b>expected impact</b> on farmers, government and the environment.
+        </p>
+
+        <div class="two-col">
+            <div>
+                <div class="text-box">
+                    <h2>1. Problem: Conventional Farming Practices</h2>
+                    <p>
+                        In many regions, farmers follow <b>area-centric practices</b>. The same crops are grown in
+                        a large area and the same irrigation and fertilizer plan is used for all farmers.
+                        This leads to:
+                    </p>
+                    <ul>
+                        <li>Overuse or underuse of water, fertilizers and pesticides.</li>
+                        <li>Unpredictable yield and frequent crop losses.</li>
+                        <li>Low ability to respond to climate variability and extreme weather.</li>
+                        <li>Little or no real-time information about soil health.</li>
+                        <li>Higher production cost and low profit margins for small and marginal farmers.</li>
+                    </ul>
+                    <p class="note">
+                        In short: decisions are based on <b>experience and guesswork</b>, not on field data.
+                    </p>
+                </div>
+
+                <div class="text-box">
+                    <h2>2. Why Change is Needed</h2>
+                    <p>
+                        Soil type, moisture, nutrients and micro-climate can change every few metres in a field.
+                        Using the <b>same prescription for all fields</b> wastes resources and reduces productivity.
+                    </p>
+                    <ul>
+                        <li>Farmers need <b>field-level data</b> to take accurate decisions for each plot.</li>
+                        <li>Government needs reliable data for planning schemes, crop insurance and subsidies.</li>
+                        <li>Climate change demands more efficient and sustainable practices.</li>
+                        <li>Market demand is shifting towards <b>quality produce</b> with traceability.</li>
+                    </ul>
+                    <p class="note">
+                        The solution is to move from “one-size-fits-all” to <b>data-driven, site-specific</b> farming.
+                    </p>
+                </div>
+            </div>
+
+            <div>
+                <div class="text-box">
+                    <h2>3. Proposed Solution: Precision Agriculture</h2>
+                    <p>
+                        Our solution is to apply <b>precision agriculture</b> using modern technologies:
+                        IoT sensors, drones, satellites, mobile apps, cloud and smart irrigation systems.
+                    </p>
+                     <ul>
+                        <li>Collect real-time data from the field (soil moisture, NPK, temperature, humidity).</li>
+                        <li>Combine field data with satellite images and weather forecasts.</li>
+                        <li>Analyze data using cloud analytics and AI-based models.</li>
+                        <li>Provide <b>field-specific advisory</b> to each farmer via mobile app (in local language).
+                        </li>
+                        <li>Automate actions like irrigation and fertigation based on data-driven rules.</li>
+                    </ul>
+                    <p class="note">
+                        The platform acts as a <b>digital farming assistant</b> that guides the farmer throughout
+                        the crop cycle – from sowing to harvest.
+                    </p>
+                </div>
+
+                <div class="text-box">
+                    <h2>4. Objectives of the Project</h2>
+                    <ul>
+                        <li>Increase crop yield and quality through better, timely decisions.</li>
+                        <li>Reduce input costs for farmers (water, fertilizers, pesticides, labour).</li>
+                        <li>Ensure sustainable use of natural resources (soil, water, energy).</li>
+                        <li>Enable government departments to use accurate data for planning and monitoring.</li>
+                        <li>Create a digital record (crop diary) for every field, useful for loans and insurance.</li>
+                    </ul>
+                    <p class="note">
+                        The long-term goal is to build <b>climate-resilient, profitable and smart farms</b>
+                        that can be scaled to an entire district or state.
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <section class="impact-section">
+            <h2 class="impact-heading">5. Expected Impact of the Solution</h2>
+            <div class="impact-grid">
+                <div class="impact-card">
+                    <h3>For Farmers</h3>
+                    <ul>
+                        <li>10–25% potential increase in yield (depending on crop and region).</li>
+                        <li>Reduction in water usage through smart irrigation schedules.</li>
+                        <li>Lower risk of crop failure due to timely pest and disease alerts.</li>
+                        <li>Better market price by improving quality and grading of produce.</li>
+                    </ul>
+                </div>
+
+                <div class="impact-card">
+                    <h3>For Government</h3>
+                    <ul>
+                        <li>Real-time view of crop health at village, block and district level.</li>
+                        <li>Better targeting of subsidies (fertilizer, irrigation, seeds).</li>
+                        <li>Support for crop insurance, disaster relief and policy making.</li>
+                        <li>Digital database of fields, crops and farmer adoption of technology.</li>
+                    </ul>
+                </div>
+
+                <div class="impact-card">
+                    <h3>For Environment</h3>
+                    <ul>
+                        <li>Reduced fertilizer runoff and lower groundwater pollution.</li>
+                        <li>More efficient water use, especially in drought-prone areas.</li>
+                        <li>Lower carbon footprint due to optimized input usage.</li>
+                        <li>Healthier soil that can support long-term productivity.</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        &copy; 2025 Agriculture Using All Modern Technologies • Problem &amp; Solution
+    </footer>
+</body>
+
+</html>

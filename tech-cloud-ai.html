@@ -1,0 +1,505 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Cloud & AI Analytics | Modern Technologies</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- You can keep your global CSS, this page CSS will sit on top -->
+    <link rel="stylesheet" href="assets/css/style.css">
+
+    <style>
+        :root {
+            --primary: #16a34a;
+            --primary-dark: #14532d;
+            --accent: #38bdf8;
+            --bg: #020617;
+            --panel-bg: rgba(15, 23, 42, 0.98);
+            --text-main: #e5e7eb;
+            --text-muted: #9ca3af;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, Helvetica, sans-serif;
+        }
+
+        body {
+            min-height: 100vh;
+            background:
+                radial-gradient(circle at top, rgba(56, 189, 248, 0.18), transparent 55%),
+                radial-gradient(circle at bottom, rgba(22, 163, 74, 0.25), #020617);
+            color: var(--text-main);
+        }
+
+        /* ===== NAVBAR (dark + green, like other pages) ===== */
+        header {
+            background: linear-gradient(90deg, #000000, #022c22, #000000);
+            color: #fff;
+            position: sticky;
+            top: 0;
+            z-index: 50;
+            box-shadow: 0 6px 18px rgba(0, 0, 0, 0.7);
+            backdrop-filter: blur(10px);
+        }
+
+        .nav-container {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 10px 18px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .logo {
+            font-weight: bold;
+            font-size: 1.05rem;
+            letter-spacing: 0.3px;
+            color: #e5e7eb;
+        }
+
+        nav {
+            display: flex;
+            gap: 8px;
+        }
+
+        nav a {
+            position: relative;
+            color: #bbf7d0;
+            text-decoration: none;
+            font-size: 0.93rem;
+            padding: 6px 14px;
+            border-radius: 999px;
+            overflow: hidden;
+            z-index: 0;
+            transition:
+                color 0.25s ease,
+                transform 0.18s ease,
+                box-shadow 0.18s ease;
+        }
+
+        /* animated border */
+        nav a::before {
+            content: "";
+            position: absolute;
+            inset: -2px;
+            border-radius: inherit;
+            background: linear-gradient(120deg,
+                    #000000,
+                    #16a34a,
+                    #ffffff,
+                    #16a34a,
+                    #000000);
+            background-size: 260% 260%;
+            opacity: 0;
+            transition: opacity 0.25s ease;
+            z-index: -2;
+        }
+
+        nav a::after {
+            content: "";
+            position: absolute;
+            inset: 1px;
+            border-radius: inherit;
+            background: rgba(15, 23, 42, 0.95);
+            z-index: -1;
+        }
+
+        @keyframes navGlow {
+            to {
+                background-position: 260% 0;
+            }
+        }
+
+        nav a:hover,
+        nav a:focus-visible {
+            color: #ffffff;
+            transform: translateY(-1px);
+            box-shadow: 0 6px 18px rgba(0, 0, 0, 0.7);
+        }
+
+        nav a:hover::before,
+        nav a:focus-visible::before,
+        nav a.active::before {
+            opacity: 1;
+            animation: navGlow 4s linear infinite;
+        }
+
+        nav a.active {
+            color: #ffffff;
+            box-shadow: 0 8px 22px rgba(0, 0, 0, 0.85);
+        }
+
+        /* ===== MAIN LAYOUT ===== */
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 28px 20px 40px;
+        }
+
+        .tag {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 0.76rem;
+            padding: 4px 12px;
+            border-radius: 999px;
+            background: rgba(15, 23, 42, 0.95);
+            border: 1px solid rgba(148, 163, 184, 0.8);
+            color: #bbf7d0;
+            margin-bottom: 10px;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+        }
+
+        .tag::before {
+            content: "";
+            width: 7px;
+            height: 7px;
+            border-radius: 999px;
+            background: radial-gradient(circle, #22c55e, #ffffff);
+            box-shadow: 0 0 8px rgba(34, 197, 94, 0.9);
+        }
+
+        .section-title {
+            font-size: clamp(1.9rem, 4vw, 2.3rem);
+            margin-bottom: 6px;
+        }
+
+        .section-subtitle {
+            font-size: 0.96rem;
+            color: #cbd5f5;
+            margin-bottom: 20px;
+            max-width: 780px;
+        }
+
+        .section-subtitle b {
+            color: #e5e7eb;
+        }
+
+        /* ===== INFO CARDS (replacing text-box) ===== */
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 22px;
+            margin-top: 8px;
+            margin-bottom: 26px;
+        }
+
+        .info-card {
+            position: relative;
+            border-radius: 18px;
+            padding: 18px 18px 16px;
+            background: var(--panel-bg);
+            box-shadow: 0 18px 45px rgba(0, 0, 0, 0.9);
+            overflow: hidden;
+            border: 1px solid rgba(55, 65, 81, 0.8);
+            transform: translateY(0) scale(1);
+            transition:
+                transform 0.22s ease,
+                box-shadow 0.22s ease,
+                border-color 0.22s ease;
+        }
+
+        /* zoom in on hover */
+        .info-card:hover {
+            transform: translateY(-4px) scale(1.01);
+            box-shadow: 0 24px 60px rgba(0, 0, 0, 1);
+            border-color: rgba(34, 197, 94, 0.9);
+        }
+
+        /* soft light in corner */
+        .info-card::before {
+            content: "";
+            position: absolute;
+            right: -40px;
+            top: -40px;
+            width: 120px;
+            height: 120px;
+            border-radius: 999px;
+            background: radial-gradient(circle,
+                    rgba(56, 189, 248, 0.22),
+                    transparent 60%);
+            opacity: 0.9;
+        }
+
+        .info-card h2 {
+            font-size: 1.05rem;
+            margin-bottom: 6px;
+        }
+
+        .info-card p {
+            font-size: 0.9rem;
+            color: var(--text-muted);
+        }
+
+        .info-card ul {
+            margin-left: 18px;
+            font-size: 0.9rem;
+            color: #e5e7eb;
+        }
+
+        .info-card li {
+            margin-bottom: 4px;
+        }
+
+        /* ===== FLOWCHART ===== */
+        .flowchart-wrapper {
+            margin-top: 10px;
+            margin-bottom: 24px;
+        }
+
+        .flowchart-title {
+            font-size: 1.1rem;
+            margin-bottom: 8px;
+        }
+
+        .flowchart {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+            align-items: center;
+            padding: 14px 14px 10px;
+            border-radius: 16px;
+            background: rgba(15, 23, 42, 0.97);
+            box-shadow: 0 18px 45px rgba(0, 0, 0, 0.9);
+        }
+
+        .flow-step {
+            min-width: 140px;
+            padding: 8px 10px;
+            border-radius: 12px;
+            background: radial-gradient(circle at top,
+                    rgba(34, 197, 94, 0.2),
+                    rgba(15, 23, 42, 0.98));
+            border: 1px solid rgba(34, 197, 94, 0.7);
+            font-size: 0.82rem;
+            text-align: center;
+        }
+
+        .flow-arrow {
+            font-size: 1.4rem;
+            color: #e5e7eb;
+        }
+
+        .flow-step b {
+            display: block;
+            color: #bbf7d0;
+            margin-bottom: 2px;
+        }
+
+        /* ===== SIMPLE DIAGRAM TEXT BOX ===== */
+        .diagram {
+            margin-top: 10px;
+            font-size: 0.9rem;
+            padding: 14px 16px;
+            border-radius: 14px;
+            background: rgba(15, 23, 42, 0.98);
+            border: 1px dashed rgba(148, 163, 184, 0.8);
+            max-width: 780px;
+        }
+
+        .diagram b {
+            color: #bbf7d0;
+        }
+
+        /* ===== BACK BUTTON (bottom) ===== */
+        .back-container {
+            margin-top: 22px;
+            text-align: center;
+        }
+
+        .back-btn {
+            display: inline-block;
+            padding: 10px 22px;
+            border-radius: 999px;
+            border: none;
+            cursor: pointer;
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: #020617;
+            background: linear-gradient(135deg, #22c55e, #38bdf8);
+            box-shadow: 0 14px 34px rgba(0, 0, 0, 0.9);
+            text-decoration: none;
+            transition:
+                transform 0.2s ease,
+                box-shadow 0.2s ease,
+                filter 0.2s ease;
+        }
+
+        .back-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 18px 45px rgba(0, 0, 0, 1);
+            filter: brightness(1.03);
+        }
+
+        .back-btn:active {
+            transform: translateY(0);
+            box-shadow: 0 10px 26px rgba(0, 0, 0, 0.85);
+        }
+
+        /* ===== FOOTER ===== */
+        footer {
+            margin-top: 40px;
+            background: #000000;
+            color: #e5e7eb;
+            text-align: center;
+            padding: 12px 6px;
+            font-size: 0.85rem;
+            border-top: 1px solid #16a34a;
+        }
+
+        /* ===== RESPONSIVE ===== */
+        @media (max-width: 850px) {
+            .info-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .container {
+                padding-inline: 16px;
+            }
+        }
+
+        @media (max-width: 520px) {
+            .section-title {
+                font-size: 1.8rem;
+            }
+
+            .flowchart {
+                flex-direction: column;
+                align-items: stretch;
+            }
+
+            .flow-arrow {
+                text-align: center;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <div class="nav-container">
+            <div class="logo">Agriculture Using Modern Technologies</div>
+            <nav>
+                <a href="index.html">Home</a>
+                <a href="technologies.html" class="active">All Technologies</a>
+                <a href="contact.html">Contact</a>
+            </nav>
+        </div>
+    </header>
+
+    <main class="container">
+        <span class="tag">Technology Detail Page</span>
+        <h1 class="section-title">Cloud &amp; AI based Analytics</h1>
+        <p class="section-subtitle">
+            Cloud servers store data from sensors, drones and satellites. AI/ML models analyze this data
+            to create <b>field-specific recommendations and predictions</b> so that farmers don’t have to guess –
+            they can take decisions backed by data.
+        </p>
+
+        <!-- FLOWCHART: High-level data journey -->
+        <section class="flowchart-wrapper">
+            <h2 class="flowchart-title">Flow of Data in Cloud &amp; AI System</h2>
+            <div class="flowchart">
+                <div class="flow-step">
+                    <b>1. Field Data</b>
+                    Sensors, drones, satellite images.
+                </div>
+                <div class="flow-arrow">→</div>
+                <div class="flow-step">
+                    <b>2. Cloud Storage</b>
+                    Secure data collection &amp; backup.
+                </div>
+                <div class="flow-arrow">→</div>
+                <div class="flow-step">
+                    <b>3. AI/ML Models</b>
+                    Patterns, predictions, risk scores.
+                </div>
+                <div class="flow-arrow">→</div>
+                <div class="flow-step">
+                    <b>4. Advisory Engine</b>
+                    Converts results into simple messages.
+                </div>
+                <div class="flow-arrow">→</div>
+                <div class="flow-step">
+                    <b>5. Users</b>
+                    Farmer app &amp; Govt dashboards.
+                </div>
+            </div>
+        </section>
+
+        <!-- INFO CARDS GRID (zoom-on-hover) -->
+        <section class="info-grid">
+            <article class="info-card">
+                <h2>1. What is Cloud &amp; AI Analytics?</h2>
+                <p>
+                    Cloud computing means using remote servers on the internet to store and process data.
+                    Artificial Intelligence (AI) and Machine Learning (ML) use algorithms to find patterns
+                    and make predictions from this data. Instead of doing everything on a single computer,
+                    the system uses powerful online servers that can grow as more farmers join.
+                </p>
+            </article>
+
+            <article class="info-card">
+                <h2>2. How does it work in Agriculture?</h2>
+                <ul>
+                    <li>All sensor readings, drone images and satellite data are uploaded to the cloud.</li>
+                    <li>Pre-processing removes errors and fills missing values.</li>
+                    <li>AI models learn relationships between soil, weather and yield.</li>
+                    <li>The system generates specific advice such as “Apply 30 kg/acre urea this week”.</li>
+                    <li>Predictions support planning (e.g., expected yield, pest outbreak risk).</li>
+                </ul>
+            </article>
+
+            <article class="info-card">
+                <h2>3. Why are we using Cloud &amp; AI? (Advantages)</h2>
+                <ul>
+                    <li>Can handle huge amounts of data from many farms at the same time.</li>
+                    <li>Recommendations improve over time as more seasons of data are added.</li>
+                    <li>Makes it possible to offer personalized advisory to each farmer.</li>
+                    <li>Supports dashboards for government and experts with real-time information.</li>
+                </ul>
+            </article>
+
+            <article class="info-card">
+                <h2>4. Example Use Cases</h2>
+                <ul>
+                    <li>Yield prediction for different scenarios (with/without irrigation).</li>
+                    <li>Early warning system for pest or disease based on historic patterns.</li>
+                    <li>Cluster analysis to group fields with similar soil or climate issues.</li>
+                </ul>
+            </article>
+
+            <article class="info-card">
+                <h2>5. Limitations / Challenges</h2>
+                <ul>
+                    <li>Requires reliable internet connectivity and stable data pipelines.</li>
+                    <li>Data privacy and security must be carefully managed.</li>
+                    <li>Need for skilled data scientists and agriculture domain experts.</li>
+                </ul>
+            </article>
+        </section>
+
+        <!-- Simple diagram text (kept for report clarity) -->
+        <div class="diagram">
+            <b>Simple Text Diagram:</b><br>
+            Field Data → Cloud Storage → AI/ML Models → Advisory Engine → Farmer App &amp; Govt Dashboards
+        </div>
+
+        <!-- Return button at last -->
+        <div class="back-container">
+            <a href="technologies.html" class="back-btn">← Back to Technologies List</a>
+        </div>
+    </main>
+
+    <footer>
+        &copy; 2025 Agriculture Using All Modern Technologies • Cloud &amp; AI
+    </footer>
+</body>
+
+</html>

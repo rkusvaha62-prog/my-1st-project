@@ -1,0 +1,459 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Contact & Team | Agriculture Using Modern Technologies</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- SIMPLE CSS -->
+    <style>
+        /* ===== RESET ===== */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html,
+        body {
+            height: 100%;
+            font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+        }
+
+        body {
+            color: #f9fafb;
+            background-color: #020617;
+            background-image: url("assets/img/contact-bg.jpg");
+            background-size: cover;
+            background-position: center;
+        }
+
+        /* Simple dark overlay for readability */
+        .page-overlay {
+            min-height: 100vh;
+            background: rgba(15, 23, 42, 0.9);
+        }
+
+        /* ===== HEADER / NAVBAR ===== */
+        header {
+            background: #020617;
+            border-bottom: 1px solid #1f2933;
+        }
+
+        .nav-container {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 0.75rem 1.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 1rem;
+        }
+
+        .logo {
+            font-weight: 700;
+            letter-spacing: 0.04em;
+            font-size: 1rem;
+            text-transform: uppercase;
+            color: #bbf7d0;
+        }
+
+        nav {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.4rem;
+        }
+
+        nav a {
+            padding: 0.4rem 0.9rem;
+            border-radius: 999px;
+            font-size: 0.85rem;
+            text-decoration: none;
+            color: #e5e7eb;
+            border: 1px solid #4b5563;
+            background: #020617;
+            transition: background 0.2s ease, color 0.2s ease, border-color 0.2s ease;
+        }
+
+        nav a:hover {
+            background: #16a34a;
+            border-color: #16a34a;
+            color: #020617;
+        }
+
+        nav a.active {
+            background: #22c55e;
+            border-color: #22c55e;
+            color: #020617;
+        }
+
+        /* ===== MAIN LAYOUT ===== */
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 2.5rem 1.5rem 3rem;
+        }
+
+        .tag {
+            display: inline-block;
+            padding: 0.3rem 0.8rem;
+            border-radius: 999px;
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            background: #020617;
+            border: 1px solid #4b5563;
+            color: #e5e7eb;
+            margin-bottom: 0.8rem;
+        }
+
+        .section-title {
+            font-size: clamp(1.8rem, 4vw, 2.3rem);
+            margin-bottom: 0.4rem;
+        }
+
+        .section-subtitle {
+            font-size: 0.95rem;
+            max-width: 700px;
+            color: #cbd5f5;
+            line-height: 1.6;
+            margin-bottom: 1.8rem;
+        }
+
+        /* ===== TEAM / CONTACT LAYOUT ===== */
+        .two-column {
+            display: grid;
+            grid-template-columns: minmax(0, 1.1fr) minmax(0, 1.1fr);
+            gap: 2rem;
+            align-items: flex-start;
+        }
+
+        .card {
+            background: #020617;
+            border-radius: 1rem;
+            border: 1px solid #4b5563;
+            padding: 1.3rem 1.2rem;
+            font-size: 0.9rem;
+        }
+
+        .card h2 {
+            font-size: 1.05rem;
+            margin-bottom: 0.6rem;
+        }
+
+        .card p {
+            font-size: 0.9rem;
+            line-height: 1.6;
+            margin-bottom: 0.7rem;
+        }
+
+        .about-list {
+            list-style: none;
+            font-size: 0.9rem;
+        }
+
+        .about-list li {
+            margin-bottom: 0.35rem;
+            display: flex;
+            gap: 0.4rem;
+        }
+
+        .about-list li span {
+            color: #a5b4fc;
+            min-width: 110px;
+            font-weight: 500;
+        }
+
+        /* Team members */
+        .team-members {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 0.9rem;
+        }
+
+        .member-card {
+            background: #020617;
+            border-radius: 0.9rem;
+            border: 1px solid #374151;
+            display: flex;
+            gap: 0.75rem;
+            align-items: center;
+            padding: 0.9rem;
+        }
+
+        .member-photo {
+            width: 56px;
+            height: 56px;
+            border-radius: 50%;
+            overflow: hidden;
+            border: 2px solid #16a34a;
+            flex-shrink: 0;
+        }
+
+        .member-photo img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .member-info h3 {
+            font-size: 0.9rem;
+            margin-bottom: 0.15rem;
+        }
+
+        .member-info p {
+            font-size: 0.8rem;
+            color: #cbd5f5;
+        }
+
+        /* ===== CONTACT INFO + FORM ===== */
+        .info-list {
+            list-style: none;
+            padding-left: 0;
+        }
+
+        .info-list li {
+            margin-bottom: 0.4rem;
+        }
+
+        .info-list b {
+            color: #e5e7eb;
+        }
+
+        form label {
+            display: block;
+            font-size: 0.8rem;
+            margin-bottom: 0.2rem;
+        }
+
+        form input,
+        form textarea {
+            width: 100%;
+            border-radius: 0.6rem;
+            border: 1px solid #4b5563;
+            background: #020617;
+            color: #f9fafb;
+            padding: 0.5rem 0.6rem;
+            font-size: 0.85rem;
+            margin-bottom: 0.7rem;
+            outline: none;
+            transition: border-color 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        form input::placeholder,
+        form textarea::placeholder {
+            color: #9ca3af;
+        }
+
+        form input:focus,
+        form textarea:focus {
+            border-color: #16a34a;
+            box-shadow: 0 0 0 1px rgba(22, 163, 74, 0.5);
+        }
+
+        form textarea {
+            min-height: 90px;
+            resize: vertical;
+        }
+
+        .btn-primary {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0.5rem 1.2rem;
+            border-radius: 999px;
+            border: none;
+            cursor: pointer;
+            font-size: 0.85rem;
+            font-weight: 500;
+            color: #020617;
+            background: #22c55e;
+            transition: background 0.15s ease, transform 0.15s ease, box-shadow 0.15s ease;
+        }
+
+        .btn-primary:hover {
+            background: #16a34a;
+            box-shadow: 0 6px 18px rgba(22, 163, 74, 0.5);
+            transform: translateY(-1px);
+        }
+
+        .btn-primary:active {
+            background: #15803d;
+            box-shadow: 0 3px 10px rgba(22, 163, 74, 0.4);
+            transform: translateY(0);
+        }
+
+        #status {
+            font-size: 0.8rem;
+            margin-top: 0.4rem;
+            color: #4ade80;
+        }
+
+        /* ===== FOOTER ===== */
+        footer {
+            text-align: center;
+            padding: 1rem 1rem 1.3rem;
+            font-size: 0.8rem;
+            color: #9ca3af;
+            background: #020617;
+            border-top: 1px solid #1f2933;
+        }
+
+        /* ===== RESPONSIVE ===== */
+        @media (max-width: 900px) {
+            .two-column {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .nav-container {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="page-overlay">
+        <header>
+            <div class="nav-container">
+                <div class="logo">Agriculture Using Modern Technologies</div>
+                <nav>
+                    <a href="index.html">Home</a>
+                    <a href="problem-solution.html">Problem &amp; Solution</a>
+                    <a href="technologies.html">Technologies</a>
+                    <a href="use-cases.html">Use Cases</a>
+                    <a href="contact.html" class="active">Contact</a>
+                </nav>
+            </div>
+        </header>
+
+        <main class="container">
+            <span class="tag">Project Team</span>
+            <h1 class="section-title">Contact &amp; Team Details</h1>
+            <p class="section-subtitle">
+                Replace the placeholders with <b>your real details</b>. You can also add your own photos
+                for a more personal and professional look.
+            </p>
+
+            <section class="two-column">
+                <!-- LEFT SIDE: ABOUT + TEAM -->
+                <div>
+                    <article class="card" style="margin-bottom:1.2rem;">
+                        <h2>About the Project</h2>
+                        <p>
+                            This project focuses on <b>Precision Agriculture using Modern Technologies</b> – combining
+                            IoT sensors, drones, satellites, mobile apps and analytics to support farmers with
+                            data-driven decisions.
+                        </p>
+                        <ul class="about-list">
+                            <li><span>Project Name:</span> Agriculture Using All Modern Technologies</li>
+                            <li><span>Problem ID:</span> PID003 (if applicable)</li>
+                            <li><span>Department:</span> Agriculture &amp; Cooperation Department</li>
+                            <li><span>College:</span> [ ICT ]</li>
+                        </ul>
+                    </article>
+
+                    <article class="card">
+                        <h2>Meet the Team</h2>
+                        <div class="team-members">
+                            <!-- YOU -->
+                            <div class="member-card">
+                                <div class="member-photo">
+                                    <img src="assets/mauryaji.jpg" alt="Rajesh Maurya">
+                                </div>
+                                <div class="member-info">
+                                    <h3>Rajesh Maurya</h3>
+                                    <p>Team Leader<br>Role: Full-stack / Research</p>
+                                </div>
+                            </div>
+
+                            <!-- Teammate 1 -->
+                            <div class="member-card">
+                                <div class="member-photo">
+                                    <img src="assets/nitil.jpg" alt="Nitil Kumar">
+                                </div>
+                                <div class="member-info">
+                                    <h3>Nitil Kumar</h3>
+                                    <p>IoT &amp; Hardware<br>Sensor integration and field testing</p>
+                                </div>
+                            </div>
+                        </div>
+                    </article>
+                </div>
+
+                <!-- RIGHT SIDE: CONTACT INFO + SIMPLE FORM -->
+                <div>
+                    <article class="card" style="margin-bottom:1.2rem;">
+                        <h2>Project Information</h2>
+                        <ul class="info-list">
+                            <li><b>Project Name:</b> Agriculture Using All Modern Technologies</li>
+                            <li><b>Problem ID:</b> PID003 – Precision Agriculture using Modern Technologies.</li>
+                            <li><b>Department:</b> Agriculture &amp; Cooperation Department</li>
+                            <li><b>College / Institute:</b> Institute of Computer Technology</li>
+                            <li><b>Team Members:</b> Rajesh Maurya, Nitil Kumar</li>
+                            <li><b>Email for Contact:</b> rkusvaha62@gmail.com</li>
+                        </ul>
+                    </article>
+
+                    <article class="card">
+                        <h2>Contact Form</h2>
+                        <p style="font-size:0.8rem; color:#cbd5f5; margin-bottom:0.7rem;">
+                            This is a demo form. You can connect it to a backend later if needed.
+                        </p>
+
+                        <form id="contactForm" onsubmit="handleSubmit(event)">
+                            <label for="name">Your Name</label>
+                            <input id="name" type="text" placeholder="Enter your name" required>
+
+                            <label for="email">Email</label>
+                            <input id="email" type="email" placeholder="Enter your email" required>
+
+                            <label for="message">Message</label>
+                            <textarea id="message" placeholder="Write your message here..." required></textarea>
+
+                            <button type="submit" class="btn-primary">
+                                Submit
+                            </button>
+                            <div id="status"></div>
+                        </form>
+                    </article>
+                </div>
+            </section>
+        </main>
+
+        <footer>
+            &copy; 2025 Agriculture Using All Modern Technologies • Contact
+        </footer>
+    </div>
+
+    <script>
+        function handleSubmit(e) {
+            e.preventDefault();
+
+            const form = document.getElementById('contactForm');
+            const nameInput = document.getElementById('name');
+            const emailInput = document.getElementById('email');
+            const messageInput = document.getElementById('message');
+            const statusEl = document.getElementById('status');
+
+            // Simple "submitted" message
+            statusEl.textContent = 'Thank you! Your message has been recorded (demo only).';
+
+            // Clear all fields
+            nameInput.value = '';
+            emailInput.value = '';
+            messageInput.value = '';
+
+            // Optional: remove message after few seconds
+            setTimeout(() => {
+                statusEl.textContent = '';
+            }, 4000);
+        }
+    </script>
+</body>
+
+</html>

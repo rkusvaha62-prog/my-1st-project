@@ -1,0 +1,578 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Use Cases | Agriculture Using Modern Technologies</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- ===== INTERNAL CSS ===== -->
+    <style>
+        :root {
+            --primary: #16a34a;
+            --primary-dark: #14532d;
+            --accent: #f97316;
+            --bg: #020617;
+            --page-bg: #0b1220;
+            --card-bg: #fdfdfb;
+            --text-main: #111827;
+            --text-muted: #4b5563;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, Helvetica, sans-serif;
+        }
+
+        body {
+            min-height: 100vh;
+            background:
+                radial-gradient(circle at top, rgba(34, 197, 94, 0.3), transparent 55%),
+                radial-gradient(circle at bottom, rgba(15, 23, 42, 1), #020617);
+            color: var(--text-main);
+        }
+
+        /* ===== Header / Nav (match overall project vibe) ===== */
+        header {
+            background: linear-gradient(90deg, #000000, #022c22, #000000);
+            color: #fff;
+            position: sticky;
+            top: 0;
+            z-index: 50;
+            box-shadow: 0 6px 18px rgba(0, 0, 0, 0.7);
+            backdrop-filter: blur(10px);
+        }
+
+        .nav-container {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 10px 18px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .logo {
+            font-weight: bold;
+            font-size: 1.05rem;
+            letter-spacing: 0.3px;
+            color: #e5e7eb;
+        }
+
+        nav {
+            display: flex;
+            gap: 8px;
+        }
+
+        nav a {
+            position: relative;
+            color: #bbf7d0;
+            text-decoration: none;
+            font-size: 0.93rem;
+            padding: 6px 14px;
+            border-radius: 999px;
+            overflow: hidden;
+            z-index: 0;
+            transition:
+                color 0.25s ease,
+                transform 0.18s ease,
+                box-shadow 0.18s ease;
+        }
+
+        nav a::before {
+            content: "";
+            position: absolute;
+            inset: -2px;
+            border-radius: inherit;
+            background: linear-gradient(120deg,
+                    #000000,
+                    #16a34a,
+                    #ffffff,
+                    #16a34a,
+                    #000000);
+            background-size: 260% 260%;
+            opacity: 0;
+            transform: rotate(0deg);
+            transition: opacity 0.25s ease;
+            z-index: -2;
+        }
+
+        nav a::after {
+            content: "";
+            position: absolute;
+            inset: 1px;
+            border-radius: inherit;
+            background: rgba(15, 23, 42, 0.95);
+            z-index: -1;
+        }
+
+        @keyframes navGlow {
+            to {
+                background-position: 260% 0;
+            }
+        }
+
+        nav a:hover,
+        nav a:focus-visible {
+            color: #ffffff;
+            transform: translateY(-1px);
+            box-shadow: 0 6px 18px rgba(0, 0, 0, 0.7);
+        }
+
+        nav a:hover::before,
+        nav a:focus-visible::before,
+        nav a.active::before {
+            opacity: 1;
+            animation: navGlow 4s linear infinite;
+        }
+
+        nav a.active {
+            color: #ffffff;
+            box-shadow: 0 8px 22px rgba(0, 0, 0, 0.85);
+        }
+
+        /* ===== Layout ===== */
+        .page-shell {
+            background: radial-gradient(circle at top, rgba(15, 23, 42, 0.8), #020617);
+        }
+
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 26px 18px 34px;
+        }
+
+        .story-hero {
+            max-width: 720px;
+            margin: 0 auto 30px;
+            text-align: center;
+            color: #e5e7eb;
+        }
+
+        .tag {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 0.76rem;
+            padding: 4px 12px;
+            border-radius: 999px;
+            background: rgba(15, 23, 42, 0.95);
+            border: 1px solid rgba(148, 163, 184, 0.8);
+            color: #bbf7d0;
+            margin-bottom: 10px;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+        }
+
+        .tag::before {
+            content: "";
+            width: 7px;
+            height: 7px;
+            border-radius: 999px;
+            background: radial-gradient(circle, #22c55e, #ffffff);
+            box-shadow: 0 0 8px rgba(34, 197, 94, 0.9);
+        }
+
+        .section-title {
+            font-size: clamp(1.9rem, 4vw, 2.4rem);
+            margin-bottom: 6px;
+        }
+
+        .section-subtitle {
+            font-size: 0.96rem;
+            color: #cbd5f5;
+            margin-bottom: 16px;
+        }
+
+        .subtitle-emphasis {
+            display: inline-block;
+            margin-top: 4px;
+            font-size: 0.9rem;
+            color: #bbf7d0;
+        }
+
+        /* ===== Story timeline ===== */
+        .timeline {
+            position: relative;
+            max-width: 880px;
+            margin: 0 auto;
+            padding: 10px 0 0;
+        }
+
+        .timeline::before {
+            content: "";
+            position: absolute;
+            left: 18px;
+            top: 0;
+            bottom: 0;
+            width: 2px;
+            background: linear-gradient(to bottom, #16a34a, rgba(148, 163, 184, 0.2));
+            opacity: 0.5;
+        }
+
+        .story-item {
+            position: relative;
+            display: grid;
+            grid-template-columns: 40px minmax(0, 1fr);
+            gap: 14px;
+            margin-bottom: 22px;
+            opacity: 0;
+            transform: translateY(10px);
+            animation: fadeInUp 0.6s ease-out forwards;
+        }
+
+        .story-item:nth-child(1) {
+            animation-delay: 0.05s;
+        }
+
+        .story-item:nth-child(2) {
+            animation-delay: 0.12s;
+        }
+
+        .story-item:nth-child(3) {
+            animation-delay: 0.2s;
+        }
+
+        .story-item:nth-child(4) {
+            animation-delay: 0.28s;
+        }
+
+        .story-marker {
+            position: relative;
+            display: flex;
+            justify-content: center;
+        }
+
+        .story-marker-circle {
+            width: 14px;
+            height: 14px;
+            border-radius: 999px;
+            border: 2px solid #bbf7d0;
+            background: #020617;
+            box-shadow: 0 0 0 4px rgba(34, 197, 94, 0.25);
+            margin-top: 4px;
+        }
+
+        /* ===== Story card ===== */
+        .card {
+            background: var(--card-bg);
+            border-radius: 16px;
+            padding: 16px 18px 16px;
+            box-shadow: 0 10px 30px rgba(15, 23, 42, 0.45);
+            font-size: 0.9rem;
+            color: var(--text-muted);
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* soft gradient corner to feel more emotional */
+        .card::before {
+            content: "";
+            position: absolute;
+            right: -40px;
+            top: -40px;
+            width: 120px;
+            height: 120px;
+            border-radius: 999px;
+            background: radial-gradient(circle,
+                    rgba(22, 163, 74, 0.18),
+                    transparent 60%);
+            opacity: 0.9;
+        }
+
+        .card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 16px 40px rgba(15, 23, 42, 0.7);
+        }
+
+        .story-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: baseline;
+            gap: 10px;
+            margin-bottom: 6px;
+        }
+
+        .story-title {
+            font-weight: bold;
+            margin-bottom: 2px;
+            color: #0f172a;
+        }
+
+        .story-label {
+            font-size: 0.78rem;
+            padding: 2px 8px;
+            border-radius: 999px;
+            background: #ecfdf3;
+            color: #166534;
+            border: 1px solid rgba(22, 163, 74, 0.4);
+            white-space: nowrap;
+        }
+
+        .story-body {
+            position: relative;
+            z-index: 1;
+        }
+
+        /* big soft quote mark for emotion */
+        .story-body::before {
+            content: "“";
+            position: absolute;
+            font-size: 3.5rem;
+            line-height: 1;
+            left: -2px;
+            top: -18px;
+            color: rgba(209, 213, 219, 0.6);
+            z-index: -1;
+        }
+
+        .story-text {
+            margin-top: 4px;
+            line-height: 1.7;
+        }
+
+        .story-highlight {
+            color: #065f46;
+            font-weight: 600;
+        }
+
+        .impact-strip {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            margin-top: 8px;
+            font-size: 0.8rem;
+            padding: 4px 9px;
+            border-radius: 999px;
+            background: #ecfdf3;
+            color: #14532d;
+        }
+
+        .impact-dot {
+            width: 7px;
+            height: 7px;
+            border-radius: 999px;
+            background: #16a34a;
+        }
+
+        /* ===== Footer ===== */
+        footer {
+            margin-top: 32px;
+            background: #000000;
+            color: #e5e7eb;
+            text-align: center;
+            padding: 12px 6px;
+            font-size: 0.85rem;
+            border-top: 1px solid #16a34a;
+        }
+
+        /* ===== Animations ===== */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(14px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* ===== Responsive ===== */
+        @media (max-width: 650px) {
+            .timeline::before {
+                left: 14px;
+            }
+
+            .story-item {
+                grid-template-columns: 34px minmax(0, 1fr);
+            }
+
+            .container {
+                padding-inline: 14px;
+            }
+
+            .card {
+                padding: 14px 14px 14px;
+            }
+
+            .section-title {
+                font-size: 1.6rem;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <header>
+        <div class="nav-container">
+            <div class="logo">Agriculture Using Modern Technologies</div>
+            <nav>
+                <a href="index.html">Home</a>
+                <a href="problem-solution.html">Problem &amp; Solution</a>
+                <a href="technologies.html">Technologies</a>
+                <a href="use-cases.html" class="active">Use Cases</a>
+                <a href="contact.html">Contact</a>
+            </nav>
+        </div>
+    </header>
+
+    <div class="page-shell">
+        <main class="container">
+            <section class="story-hero">
+                <span class="tag">Real-world stories</span>
+                <h1 class="section-title">Use Cases &amp; Impact Stories</h1>
+                <p class="section-subtitle">
+                    Behind every sensor, drone and mobile app, there is a real person whose life becomes
+                    a little easier and a little more secure.
+                    <span class="subtitle-emphasis">
+                        These stories show how technology quietly supports farmers and officers every day.
+                    </span>
+                </p>
+            </section>
+
+            <!-- ===== Timeline of stories ===== -->
+            <section class="timeline">
+                <!-- STORY 1 -->
+                <article class="story-item">
+                    <div class="story-marker">
+                        <div class="story-marker-circle"></div>
+                    </div>
+                    <div class="card">
+                        <div class="story-header">
+                            <p class="story-title">Farmer Story 1: Small Land + IoT Sensors + Mobile App</p>
+                            <span class="story-label">Water Saving • Small Farmer</span>
+                        </div>
+                        <div class="story-body">
+                            <p class="story-text">
+                                A farmer with <span class="story-highlight">just 2 acres of land</span> installs IoT
+                                soil
+                                moisture sensors in two plots.
+                                The mobile app starts telling him when each plot really needs water. He slowly stops
+                                irrigating “by habit” and begins to trust the data on his screen.
+                                <br><br>
+                                Instead of guessing, he irrigates only when required. Over the season, he notices that
+                                the motor runs less, the field never stays dry for long, and his crop looks healthier.
+                                The result is almost <span class="story-highlight">30% water saving</span> and a better
+                                yield,
+                                because the crop never faces long dry stress.
+                            </p>
+
+                            <div class="impact-strip">
+                                <span class="impact-dot"></span>
+                                <span><b>Impact:</b> 30% less water, more peace of mind.</span>
+                            </div>
+                        </div>
+                    </div>
+                </article>
+
+                <!-- STORY 2 -->
+                <article class="story-item">
+                    <div class="story-marker">
+                        <div class="story-marker-circle"></div>
+                    </div>
+                    <div class="card">
+                        <div class="story-header">
+                            <p class="story-title">Farmer Story 2: Drone for Early Disease Detection</p>
+                            <span class="story-label">Crop Health • Drone View</span>
+                        </div>
+                        <div class="story-body">
+                            <p class="story-text">
+                                During the main growth stage, a drone flies over a group of fields and quietly
+                                captures dozens of images. On the ground everything looks normal, but
+                                in the processed drone map, a corner of one farm shows
+                                <span class="story-highlight">faded yellow patches</span>.
+                                <br><br>
+                                It is an early sign of nutrient deficiency and pest attack. The farmer and extension
+                                worker visit only that corner, confirm the issue and treat the affected spot.
+                                Instead of spraying the entire field, they treat only where it is needed, reducing
+                                pesticide cost and protecting the rest of the crop.
+                            </p>
+
+                            <div class="impact-strip">
+                                <span class="impact-dot"></span>
+                                <span><b>Impact:</b> Less pesticide, problem caught before it spreads.</span>
+                            </div>
+                        </div>
+                    </div>
+                </article>
+
+                <!-- STORY 3 -->
+                <article class="story-item">
+                    <div class="story-marker">
+                        <div class="story-marker-circle"></div>
+                    </div>
+                    <div class="card">
+                        <div class="story-header">
+                            <p class="story-title">Farmer Story 3: Automatic Irrigation Based on Moisture</p>
+                            <span class="story-label">Smart Pump • Time Saved</span>
+                        </div>
+                        <div class="story-body">
+                            <p class="story-text">
+                                A vegetable grower connects his pump to a smart controller linked with soil moisture
+                                sensors.
+                                Whenever the moisture drops below the threshold, the controller quietly turns the pump
+                                <span class="story-highlight">ON</span>.
+                                When the soil reaches the target range, it turns the pump <span
+                                    class="story-highlight">OFF</span>.
+                                <br><br>
+                                Earlier, he had to visit the field late at night or early morning just to check the
+                                water. Sometimes he forgot, and over-irrigation caused root diseases. Now, irrigation
+                                matches the crop’s real need. He saves time, electricity and avoids the guilt of
+                                wasting water.
+                            </p>
+
+                            <div class="impact-strip">
+                                <span class="impact-dot"></span>
+                                <span><b>Impact:</b> Healthy roots, less tension about “did I switch the pump
+                                    off?”.</span>
+                            </div>
+                        </div>
+                    </div>
+                </article>
+
+                <!-- STORY 4 -->
+                <article class="story-item">
+                    <div class="story-marker">
+                        <div class="story-marker-circle"></div>
+                    </div>
+                    <div class="card">
+                        <div class="story-header">
+                            <p class="story-title">Government Officer: Dashboard for Better Planning</p>
+                            <span class="story-label">District View • Policy Impact</span>
+                        </div>
+                        <div class="story-body">
+                            <p class="story-text">
+                                At the district level, agriculture officers open a dashboard that combines
+                                <span class="story-highlight">sensor data, drone images and satellite-based
+                                    indices</span>.
+                                Instead of reading long reports, they see drought-prone villages,
+                                pest outbreak zones and low-productivity clusters on a single screen.
+                                <br><br>
+                                With this clarity, they can plan where to send field staff, which farmers need
+                                training first, and where to focus input support. Schemes feel less like “paper work”
+                                and more like targeted help reaching the right farmers at the right time.
+                            </p>
+
+                            <div class="impact-strip">
+                                <span class="impact-dot"></span>
+                                <span><b>Impact:</b> Smarter decisions, resources used where they matter most.</span>
+                            </div>
+                        </div>
+                    </div>
+                </article>
+            </section>
+        </main>
+    </div>
+
+    <footer>
+        &copy; 2025 Agriculture Using All Modern Technologies • Use Cases & Stories
+    </footer>
+
+</body>
+
+</html>

@@ -1,0 +1,542 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>IoT Sensors in Agriculture | Modern Technologies</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- ===== INTERNAL CSS (MATCHES HOME PAGE THEME) ===== -->
+    <style>
+        :root {
+            --primary: #14ac4c;
+            /* main green */
+            --primary-dark: #12833a;
+            /* darker green */
+            --accent: #0ea5e9;
+            /* blue accent */
+            --bg1: #000000;
+            /* pure black base */
+            --panel-bg: rgba(0, 0, 0, 0.86);
+            /* solid blur black panels */
+            --text-main: #e5e7eb;
+            /* light text */
+            --text-muted: #9ca3af;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, Helvetica, sans-serif;
+        }
+
+        body {
+            min-height: 100vh;
+            /* black with soft white light spreading ~10% */
+            background:
+                radial-gradient(circle at 10% 0%, rgba(255, 255, 255, 0.12) 0, transparent 40%),
+                radial-gradient(circle at 90% 100%, rgba(255, 255, 255, 0.08) 0, transparent 45%),
+                radial-gradient(circle at 50% 40%, rgba(255, 255, 255, 0.06) 0, transparent 50%),
+                #000000;
+            color: var(--text-main);
+            opacity: 0;
+            animation: fadeIn 0.6s ease-out forwards;
+        }
+
+        /* ===== Header / Nav (same style as home) ===== */
+        header {
+            background: linear-gradient(90deg, #020617, #0f766e, #5041db);
+            color: #fff;
+            position: sticky;
+            top: 0;
+            z-index: 50;
+            box-shadow: 0 6px 18px rgba(0, 0, 0, 0.7);
+        }
+
+        .nav-container {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 10px 18px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .logo {
+            font-weight: bold;
+            font-size: 1.1rem;
+            letter-spacing: 0.4px;
+        }
+
+        nav a {
+            color: #c4f8a8;
+            text-decoration: none;
+            margin-left: 10px;
+            font-size: 0.93rem;
+            position: relative;
+            padding: 6px 12px;
+            border-radius: 999px;
+            transition:
+                color 0.25s ease,
+                background 0.25s ease,
+                transform 0.18s ease,
+                box-shadow 0.18s ease;
+        }
+
+        nav a.active {
+            background: rgba(15, 23, 42, 0.65);
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.55);
+        }
+
+        nav a::after {
+            content: "";
+            position: absolute;
+            left: 12px;
+            right: 12px;
+            bottom: 4px;
+            height: 2px;
+            width: 0;
+            margin: 0 auto;
+            background: #ffffff;
+            border-radius: 999px;
+            transition: width 0.25s ease;
+        }
+
+        nav a:hover {
+            color: #ffffff;
+            background: rgba(15, 23, 42, 0.45);
+            transform: translateY(-1px);
+            box-shadow: 0 6px 16px rgba(0, 0, 0, 0.7);
+        }
+
+        nav a:hover::after {
+            width: 60%;
+        }
+
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 24px 18px 30px;
+        }
+
+        /* ===== Tag + Headings ===== */
+        .tag {
+            display: inline-block;
+            font-size: 0.78rem;
+            padding: 4px 12px;
+            border-radius: 999px;
+            background: rgba(34, 197, 94, 0.18);
+            color: #bbf7d0;
+            margin-bottom: 10px;
+        }
+
+        .section-title {
+            font-size: 3rem;
+            font-weight: bold;
+            background: linear-gradient(to right, #4ade80, #a855f7, #0ea5e9);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .section-subtitle {
+            font-size: 0.95rem;
+            color: var(--text-muted);
+            margin-bottom: 18px;
+        }
+
+        /* ===== Panel base (solid blur black + glowing animated border) ===== */
+        .panel {
+            position: relative;
+            background: var(--panel-bg);
+            border-radius: 18px;
+            box-shadow: 0 20px 45px rgba(0, 0, 0, 0.95);
+            overflow: hidden;
+            padding: 18px 18px 16px;
+            margin-top: 18px;
+            backdrop-filter: blur(16px);
+        }
+
+        /* animated border only (green + purple + shining white) */
+        .panel::before {
+            content: "";
+            position: absolute;
+            inset: -2px;
+            border-radius: inherit;
+            background: linear-gradient(120deg,
+                    #27342c,
+                    #a855f7,
+                    #ffffff,
+                    #22c55e,
+                    #a855f7);
+            background-size: 300% 300%;
+            z-index: -1;
+            animation: borderGlow 6s linear infinite;
+        }
+
+        /* inner solid panel background so only border glows */
+        .panel::after {
+            content: "";
+            position: absolute;
+            inset: 1px;
+            border-radius: inherit;
+            background: var(--panel-bg);
+            z-index: -1;
+        }
+
+        /* ===== Info section: text + image placeholder ===== */
+        .info-section {
+            display: grid;
+            grid-template-columns: minmax(0, 2fr) minmax(0, 1.2fr);
+            gap: 16px;
+            align-items: flex-start;
+        }
+
+        /* h2 color combination for this page */
+        .info-section h2 {
+            font-size: 1.2rem;
+            margin-bottom: 6px;
+            color: #e5e7eb;
+            padding-left: 8px;
+            border-left: 3px solid #22c55e;
+            text-shadow: 0 0 10px rgba(168, 85, 247, 0.6);
+        }
+
+        .info-section p,
+        .info-section ul {
+            font-size: 0.9rem;
+            color: var(--text-muted);
+            line-height: 1.6;
+        }
+
+        .info-section ul {
+            margin-left: 18px;
+            margin-top: 4px;
+        }
+
+        .image-slot {
+            border-radius: 14px;
+            position: relative;
+            overflow: hidden;
+            height: 180px;
+            background: radial-gradient(circle at top, #111827, #020617);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #9ca3af;
+            font-size: 0.8rem;
+            text-align: center;
+            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.9);
+        }
+
+        .image-slot-inner {
+            padding: 8px 10px;
+        }
+
+        .image-slot img {
+            max-width: 100%;
+            max-height: 100%;
+            object-fit: cover;
+            border-radius: 12px;
+            object-fit: contain;
+        }
+
+        /* small pills for parameters */
+        .pill-row {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+            margin-top: 8px;
+        }
+
+        .pill {
+            font-size: 0.76rem;
+            padding: 4px 8px;
+            border-radius: 999px;
+            background: rgba(55, 65, 81, 0.9);
+            color: #e5e7eb;
+        }
+
+        .diagram-box {
+            font-size: 0.88rem;
+            color: var(--text-muted);
+            margin-top: 4px;
+        }
+
+        /* Back link */
+        .back-link {
+            display: inline-block;
+            margin-top: 18px;
+            font-size: 0.9rem;
+            color: #bbf7d0;
+            text-decoration: none;
+        }
+
+        .back-link:hover {
+            text-decoration: underline;
+        }
+
+        /* Footer */
+        footer {
+            margin-top: 26px;
+            background: #000000;
+            color: #e5e7eb;
+            text-align: center;
+            padding: 10px 6px;
+            font-size: 0.85rem;
+            border-top: 1px solid #111827;
+        }
+
+        footer span {
+            color: #bbf7d0;
+        }
+
+        /* ===== Animations ===== */
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(6px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes borderGlow {
+            0% {
+                background-position: 0% 50%;
+            }
+
+            50% {
+                background-position: 100% 50%;
+            }
+
+            100% {
+                background-position: 0% 50%;
+            }
+        }
+
+        /* ===== Responsive ===== */
+        @media (max-width: 800px) {
+            .info-section {
+                grid-template-columns: 1fr;
+            }
+
+            .image-slot {
+                order: -1;
+                /* image first on mobile */
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <div class="nav-container">
+            <div class="logo">Agriculture Using Modern Technologies</div>
+            <nav>
+                <a href="index.html">Home</a>
+                <a href="technologies.html" class="active">All Technologies</a>
+                <a href="contact.html">Contact</a>
+            </nav>
+        </div>
+    </header>
+
+    <main class="container">
+        <span class="tag">Technology Detail Page</span>
+        <h1 class="section-title">IoT Sensors in Precision Agriculture</h1>
+        <p class="section-subtitle">
+            Internet of Things (IoT) sensors are smart devices placed in the farm that continuously measure soil
+            and environmental conditions and send data to the cloud. This data is converted into <b>simple,
+                actionable advice</b> for the farmer.
+        </p>
+
+        <!-- 1. Definition + basic components -->
+        <section class="panel info-section">
+            <div>
+                <h2>1. What are IoT Sensors?</h2>
+                <p>
+                    IoT sensors are small electronic devices that collect data from the field and send it using
+                    wireless communication. A typical agricultural IoT node contains:
+                </p>
+                <ul>
+                    <li><b>Sensor probes</b> – soil moisture, soil temperature, air temperature, humidity, pH, NPK.</li>
+                    <li><b>Microcontroller</b> – (e.g., Arduino, ESP32) that reads sensor values and controls power.
+                    </li>
+                    <li><b>Communication module</b> – Wi-Fi, GSM/4G, LoRa, or NB-IoT to send data to the gateway/cloud.
+                    </li>
+                    <li><b>Power source</b> – rechargeable battery + small solar panel, so it can run in the field.</li>
+                    <li><b>Enclosure</b> – waterproof box so that electronics are protected from rain and dust.</li>
+                </ul>
+
+                <div class="pill-row">
+                    <span class="pill">Soil moisture</span>
+                    <span class="pill">Temperature</span>
+                    <span class="pill">Humidity</span>
+                    <span class="pill">pH</span>
+                    <span class="pill">NPK</span>
+                    <span class="pill">Solar powered</span>
+                </div>
+            </div>
+
+            <div class="image-slot">
+                <div class="image-slot-inner">
+                    <!-- ⭐ IMAGE PLACE: Definition / Node Photo -->
+                     <img src="assets/iot_sensors_.webp" alt="IoT sensor node in field">
+                    Add an image of a complete IoT node here
+                    (sensor probes + small box + solar panel).
+                </div>
+            </div>
+        </section>
+
+        <!-- 2. How they work -->
+        <section class="panel info-section">
+            <div>
+                <h2>2. How do IoT Sensors work in Agriculture?</h2>
+                <p>The typical working cycle of IoT sensors in our precision agriculture system is:</p>
+                <ul>
+                    <li>Sensors are installed in different plots (for different crops / soil types).</li>
+                    <li>Every few minutes they measure values (moisture, temperature, pH, etc.).</li>
+                    <li>Values are sent to a <b>gateway</b> or directly to the <b>cloud server</b>.</li>
+                    <li>The cloud compares sensor values with ideal ranges for that crop and soil type.</li>
+                    <li>Based on rules or AI models, the system generates <b>advisories</b>:
+                        “Irrigate Plot-2 after 3 hours”, “Add 40 kg urea per acre”, etc.</li>
+                    <li>These advisories reach the <b>farmer’s mobile app</b> in local language.</li>
+                </ul>
+                <div class="diagram-box">
+                    <b>Data Flow (Text Diagram):</b><br>
+                    Field Sensors → Gateway / Internet → Cloud Database → Analytics / Rules Engine → Farmer Mobile App
+                </div>
+            </div>
+
+            <div class="image-slot">
+                <div class="image-slot-inner">
+                    <!-- ⭐ IMAGE PLACE: Data flow / diagram -->
+                    Example: <img src="assets/iot-working.webp" alt="IoT sensor data flow"> -->
+                    Add a simple diagram image showing data
+                    flow from sensor → cloud → mobile app.
+                </div>
+            </div>
+        </section>
+
+        <!-- 3. Advantages -->
+        <section class="panel info-section">
+            <div>
+                <h2>3. Why are we using IoT Sensors? (Advantages)</h2>
+                <ul>
+                    <li><b>Real-time visibility</b> of soil moisture, temperature and nutrients.</li>
+                    <li><b>Accurate irrigation scheduling</b> – irrigate only when and where needed.</li>
+                    <li><b>Water saving</b> – major reduction in over-irrigation and wastage.</li>
+                    <li><b>Better fertilizer management</b> – apply NPK only when values go below threshold.</li>
+                    <li><b>Early stress detection</b> – alerts when moisture / temperature / pH crosses safe limits.
+                    </li>
+                    <li><b>Support for automation</b> – data can directly control pumps and valves.</li>
+                    <li><b>Historical data</b> – season-wise history helps in planning and research.</li>
+                </ul>
+            </div>
+
+            <div class="image-slot">
+                <div class="image-slot-inner">
+                    <!-- ⭐ IMAGE PLACE: Advantages / dashboard -->
+                     Example: <img src="assets/iot-drone.jpg" alt="IoT dashboard showing graphs"> -->
+                    Add a screenshot of a dashboard or graph
+                    showing moisture / temperature vs time.
+                </div>
+            </div>
+        </section>
+
+        <!-- 4. Example Use Cases -->
+        <section class="panel info-section">
+            <div>
+                <h2>4. Example Use Cases in Our Project</h2>
+                <ul>
+                    <li><b>Automatic Irrigation:</b> If soil moisture goes below 30%, system sends a signal to turn ON
+                        the pump.
+                        When it reaches 60%, pump is turned OFF.</li>
+                    <li><b>Different Zones in Same Farm:</b> Sandy soil dries faster than clay soil. Sensors in each
+                        zone
+                        allow different irrigation timing for each zone.</li>
+                    <li><b>Micro-climate Monitoring:</b> Sensors record temperature and humidity every 10 minutes,
+                        helping
+                        predict disease risk (like fungal infections).</li>
+                    <li><b>Frost Alert:</b> In cold regions, sensors warn farmer when temperature is going near 0°C.
+                    </li>
+                    <li><b>Soil Health Tracking:</b> Periodic pH and EC readings show whether soil is becoming acidic or
+                        salty.</li>
+                </ul>
+            </div>
+
+            <div class="image-slot">
+                <div class="image-slot-inner">
+                    <!-- ⭐ IMAGE PLACE: Field photos / use case -->
+                    <img src="assets/group-people-network-circuit-board-link-connection-technology (1).jpg" alt="IoT sensors placed in farm"> -->
+                    Add an image of sensors placed in different
+                    parts of the field (different plots/zones).
+                </div>
+            </div>
+        </section>
+
+        <!-- 5. Limitations / Challenges -->
+        <section class="panel info-section">
+            <div>
+                <h2>5. Limitations / Challenges</h2>
+                <ul>
+                    <li><b>Initial cost</b> of hardware and installation can be high for small farmers.</li>
+                    <li><b>Maintenance:</b> sensors need calibration, cleaning and battery replacement.</li>
+                    <li><b>Connectivity issues</b> in remote areas with weak mobile / internet coverage.</li>
+                    <li><b>Farmer training:</b> farmers must be trained to understand app messages and alerts.</li>
+                    <li><b>Data quality:</b> wrong installation depth or damaged probes can give wrong readings.</li>
+                </ul>
+            </div>
+
+            <div class="image-slot">
+                <div class="image-slot-inner">
+                    <!-- ⭐ IMAGE PLACE: Limitations / maintenance -->
+                     <img src="assets/limit-iot.jpg" alt="Maintaining IoT sensors"> -->
+                    Add an image related to maintenance /
+                    technician checking the IoT node.
+                </div>
+            </div>
+        </section>
+
+        <!-- 6. Extra: Parameters & Sampling Design -->
+        <section class="panel info-section">
+            <div>
+                <h2>6. Parameters & Sampling Strategy (for project report)</h2>
+                <p>In our proposed system, we plan to configure the following design (you can customize as per your
+                    project):</p>
+                <ul>
+                    <li><b>Sampling interval:</b> every 15 minutes for moisture &amp; weather, every day for pH &amp;
+                        EC.</li>
+                    <li><b>Number of nodes:</b> at least 1 node per 1–2 acres (more for high-value crops).</li>
+                    <li><b>Depth of moisture probe:</b> 15–30 cm depending on crop root zone.</li>
+                    <li><b>Threshold example:</b> Moisture &lt; 30% → “Irrigate now”, Moisture &gt; 80% → “Stop
+                        irrigation”.</li>
+                    <li><b>Data storage:</b> values stored in cloud database with timestamp, GPS location and node ID.
+                    </li>
+                </ul>
+            </div>
+
+            <div class="image-slot">
+                <div class="image-slot-inner">
+                    <!-- ⭐ IMAGE PLACE: Table / settings -->
+                     <img src="assets/iot-parameter.jpg" alt="IoT configuration screen"> -->
+                    Add an image showing configuration screen
+                    or simple table of thresholds and intervals.
+                </div>
+            </div>
+        </section>
+
+        <!-- Back link -->
+        <a href="technologies.html" class="back-link">← Back to Technologies List</a>
+    </main>
+
+    <footer>
+        &copy; <span>2025</span> Agriculture Using All Modern Technologies • IoT Sensors
+    </footer>
+
+</body>
+
+</html>
